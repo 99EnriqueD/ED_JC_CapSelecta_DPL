@@ -10,7 +10,7 @@ train = 2
 test = 8
 
 train_queries = load('data/train{}_test{}_train.txt'.format(train,test))
-test_queries = load('data/train{}_test{}_train.txt'.format(train,test))
+test_queries = load('data/train{}_test{}_test.txt'.format(train,test))
 
 
 def neural_pred(network,i1,i2):
