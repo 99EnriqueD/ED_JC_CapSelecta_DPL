@@ -1,6 +1,6 @@
 from train import train_model
 from data_loader import load
-from examples.MNIST.mnist import MNIST_Net, neural_predicate
+from examples.NIPS.MNIST.mnist  import MNIST_Net, neural_predicate
 import torch
 from network import Network
 from model import Model
@@ -27,4 +27,4 @@ model = Model(problog_string, [net], caching=False)
 optimizer = Optimizer(model, 2)
 
 test(model)
-train_model(model,train_queries, 1, optimizer, test_iter=1000, test=test, snapshot_iter=10000)
+train_model(model, train_queries, 1, optimizer, test_iter=1000, test=test, snapshot_iter=10000)

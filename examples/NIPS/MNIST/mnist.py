@@ -57,9 +57,9 @@ def test_MNIST(model,max_digit=10,name='mnist_net'):
     return [('F1',F1)]
 
 
-def neural_predicate(network, i, dataset='train'):
-    i = int(i)
-    dataset = str(dataset)
+def neural_predicate(network, i):
+    dataset = str(i.functor)
+    i = int(i.args[0])
     if dataset == 'train':
         d, l = mnist_train_data[i]
     elif dataset == 'test':
