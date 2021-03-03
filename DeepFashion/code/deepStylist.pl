@@ -2,7 +2,7 @@ nn(neuralCategory,[I],C,[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,2
     :: neuralCategory(I,C).
 nn(neuralPatternA,[I],P,[floral,graphic,striped,embroiderd,pleated,solid,lattice]) :: neuralPatternA(I,P).
 nn(neuralSleeveA,[I],S,[long_sleeve,short_sleeve,sleeveless]) :: neuralSleeveA(I,S).
-nn(neuralLengthA,[I],L,[maxi_length,mini_length,no_dress]) :: neuralLengthA(I,L).
+nn(neuralDLengthA,[I],L,[maxi_length,mini_length,no_dress]) :: neuralDLengthA(I,L).
 nn(neuralNeckA,[I],N,[crew_neckline,v_neckline,square_neckline,no_neckline]) :: neuralNeckA(I,N).
 nn(neuralFabricA,[I],F,[denim,chiffon,cotton,leather,faux,knit]) :: neuralFabricA(I,F).
 nn(neuralFitA,[I],F,[tight,loose,conventional]) :: neuralFit(I,F).
