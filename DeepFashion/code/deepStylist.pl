@@ -47,10 +47,12 @@ dressCode(I,Code) :-
     
 % SIMILAR ---------------------------------------------------------------------------------------------------------------
 
-similarCoarse(Piece,SimilarPiece) :- 
+similar(Piece,SimilarPiece) :- 
     neuralCategory(Piece,C),
     % Get a few attributes here
     % TODO: Choose an images in database (that don't have labels, not needed or can update database as they are queried)
+    %       I think a good idea here might be to choose a set of images to choose from and pick max from them (i.e. similar(Piece,SimilarPiece,SetOfPiecesToLookAt)). 
+    %       In real-life application: these sets could be partitions of total dataset and these partitions can be run in parallel to get global, most similar piece.
     neuralCategory(SimilarPiece,C),
     neuralAttribute(SimilarPiece,A).
     % TODO: Potentially, show image here via IO.
