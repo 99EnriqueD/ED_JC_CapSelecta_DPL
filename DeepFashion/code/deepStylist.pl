@@ -24,36 +24,44 @@ attributeWeather(I,Temp,Percipitation) :-
 
 % DRESSCODE ---------------------------------------------------------------------------------------------------------------
 
-% categoryDressCode(C,casual) :- member(C,[1,4,6,7,9,10,11,12,15,17,18,19,21,23,24,25,26,27,28,29,30,31,32,33,34,35,36,40,44,45,46,47,49,50]).
-% categoryDressCode(C,business) :- member(C,[2,3,5,11,14,22,39,47]).
-% categoryDressCode(C,chic) :- member(C,[2,5,6,8,13,16,20,23,33,37,38,41,42,45,47,48]).
+categoryDressCode(C,casual) :- member(C,[1,4,6,7,9,10,11,12,15,17,18,19,21,23,24,25,26,27,28,29,30,31,32,33,34,35,36,40,44,45,46,47,49,50]).
+categoryDressCode(C,business) :- member(C,[2,3,5,11,14,22,39,47]).
+categoryDressCode(C,chic) :- member(C,[2,5,6,8,13,16,20,23,33,37,38,41,42,45,47,48]).
 
-% % TODO: try learning probabilistic parameters for categories over multiple dresscodes (such as a jacket is most of the time (0.6) casual but sometimes business (0.4))
-% % t(0.6) :: business ... 
+% TODO: try learning probabilistic parameters for categories over multiple dresscodes (such as a jacket is most of the time (0.6) casual but sometimes business (0.4))
+% t(0.6) :: business ... 
 
-% % Categories: casual, business, chic
-% %use categories (no tshirts for example) 
-% dresscode(I1,I2,Code) :- 
-%     neuralCategory(I1,C1), 
-%     neuralCategory(I2,C2), 
-%     categoryDressCode(C1,Code),
-%     categoryDressCode(C2,Code).
+% Categories: casual, business, chic
+%use categories (no tshirts for example) 
+dresscode(I1,I2,Code) :- 
+    neuralCategory(I1,C1), 
+    neuralCategory(I2,C2), 
+    categoryDressCode(C1,Code),
+    categoryDressCode(C2,Code).
 
-% % For single pieces of clothing (full pieces like dresses or jumpsuits)
-% dressCode(I,Code) :- 
-%     neuralCategory(I,C),
-%     categoryDressCode(C,Code).
+% For single pieces of clothing (full pieces like dresses or jumpsuits)
+dressCode(I,Code) :- 
+    neuralCategory(I,C),
+    categoryDressCode(C,Code).
 
     
 % SIMILAR ---------------------------------------------------------------------------------------------------------------
 
-% similarCoarse(Piece,SimilarPiece) :- 
-%     neuralCategory(Piece,C),
-%     % Get a few attributes here
-%     % TODO: Choose an images in database (that don't have labels, not needed or can update database as they are queried)
-%     neuralCategory(SimilarPiece,C),
-%     neuralAttribute(SimilarPiece,A).
-%     % TODO: Potentially, show image here via IO.
+similarCoarse(Piece,SimilarPiece) :- 
+    neuralCategory(Piece,C),
+    % Get a few attributes here
+    % TODO: Choose an images in database (that don't have labels, not needed or can update database as they are queried)
+    neuralCategory(SimilarPiece,C),
+    neuralAttribute(SimilarPiece,A).
+    % TODO: Potentially, show image here via IO.
 
-% % For more attributes
-% % similarFine(Piece,SimilarPiece) :
+
+% BUDGET ------------------------------------------------------------------------------------------------------------------
+
+piecePrice(Piece,PiecePrice) :- True. % TODO, could be based on similarity to clothes of known price or could give price distributions of  
+
+outfitPrice([Piece|PS],OutfitPrice) :- 
+    outfitPrice(Ps,RestPrice), 
+    OutfitPrice is RestPrice + piecePrice(Piece).
+
+withinBudget(Pieces,Budget) :- outfitPrice(Pieces,OutfitPrice), Budget >= OutfitPrice.
