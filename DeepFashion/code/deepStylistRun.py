@@ -15,7 +15,7 @@ with open('deepStylist.pl') as f:
     problog_string = f.read()
     
 # Might need to make multiple nets and add them all to model
-network = DeepFashion_Net()
+network = Fabric_Net()
 net = Network(network,'DF_Net', neural_predicate)
 
 
