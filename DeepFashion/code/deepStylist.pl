@@ -10,7 +10,9 @@ nn(neuralFabricA,[I],F,[denim,chiffon,cotton,leather,faux,knit]) :: neuralFabric
 % WEATHER ---------------------------------------------------------------------------------------------------------------
 
 attributeTemperature(A,warm) :- member(A,[short_sleeve,sleeveless,denim,cotton,chiffon]).
-attributeTemperature(A,cold) :- member(A,[long_sleeve,leather,faux,cotton,denim,knit]).
+attributeTemperature(A,cold) :- member(A,[long_sleeve,leather,faux,knit]).
+% Apparently cotton is not good for cold https://www.quora.com/Is-cotton-good-for-winter
+% Apparently denim is not good for cold https://www.theguardian.com/fashion/2020/sep/30/denim-is-rubbish-for-keeping-you-warm-experts-tips-for-cold-weather-dressing
 
 attributePercipitation(A,rain) :- member(A,[denim,leather,faux]).
 attributePercipitation(A,sun) :- member(A,[chiffon,cotton,knit,]).
