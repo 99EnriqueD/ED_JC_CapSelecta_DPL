@@ -7,7 +7,21 @@
 nn(neuralFabricA,[I],F,[denim,chiffon,cotton,leather,faux,knit]) :: neuralFabricA(I,F).
 % nn(neuralFitA,[I],F,[tight,loose,conventional]) :: neuralFit(I,F).
 
-% WEATHER ---------------------------------------------------------------------------------------------------------------
+
+% DeepStylist 
+
+
+% BUDGET ------------------------------------------------------------------------------------------------------------------
+
+piecePrice(Piece,PiecePrice) :- True. % TODO, could be based on similarity to clothes of known price or could give price distributions of  
+
+outfitPrice([Piece|PS],OutfitPrice) :- 
+    outfitPrice(Ps,RestPrice), 
+    OutfitPrice is RestPrice + piecePrice(Piece).
+
+withinBudget(Pieces,Budget) :- outfitPrice(Pieces,OutfitPrice), Budget >= OutfitPrice.
+
+% Outfit conditions (weather + dresscode + sex) ---------------------------------------------------------------------------------------------------------------
 
 attributeTemperature(A,warm) :- member(A,[short_sleeve,sleeveless,denim,cotton,chiffon]).
 attributeTemperature(A,cold) :- member(A,[long_sleeve,leather,faux,knit]).
@@ -20,11 +34,9 @@ attributePercipitation(A,sun) :- member(A,[chiffon,cotton,knit,]).
 attributeWeather(I,Temp,Percipitation) :- 
     neuralFabricA(I,F),
     attributeTemperature(F,Temp),
-    attributePercipitation(F,Temp).
+    attributePercipitation(F,Percipitation).
     % neuralSleeveA(I,S),
     % attributeTemperature(S,Temp).
-
-% DRESSCODE ---------------------------------------------------------------------------------------------------------------
 
 categoryDressCode(C,casual) :- member(C,[1,4,6,7,9,10,11,12,15,17,18,19,21,23,24,25,26,27,28,29,30,31,32,33,34,35,36,40,44,45,46,47,49,50]).
 categoryDressCode(C,business) :- member(C,[2,3,5,11,14,22,39,47]).
@@ -45,27 +57,19 @@ dresscode(I1,I2,Code) :-
 dressCode(I,Code) :- 
     neuralCategory(I,C),
     categoryDressCode(C,Code).
-
     
+
+
+
+
 % SIMILAR ---------------------------------------------------------------------------------------------------------------
 
-similar(Piece,SimilarPiece) :- 
-    neuralCategory(Piece,C),
-    % Get a few attributes here
-    % TODO: Choose an images in database (that don't have labels, not needed or can update database as they are queried)
-    %       I think a good idea here might be to choose a set of images to choose from and pick max from them (i.e. similar(Piece,SimilarPiece,SetOfPiecesToLookAt)). 
-    %       In real-life application: these sets could be partitions of total dataset and these partitions can be run in parallel to get global, most similar piece.
-    neuralCategory(SimilarPiece,C),
-    neuralAttribute(SimilarPiece,A).
-    % TODO: Potentially, show image here via IO.
-
-
-% BUDGET ------------------------------------------------------------------------------------------------------------------
-
-piecePrice(Piece,PiecePrice) :- True. % TODO, could be based on similarity to clothes of known price or could give price distributions of  
-
-outfitPrice([Piece|PS],OutfitPrice) :- 
-    outfitPrice(Ps,RestPrice), 
-    OutfitPrice is RestPrice + piecePrice(Piece).
-
-withinBudget(Pieces,Budget) :- outfitPrice(Pieces,OutfitPrice), Budget >= OutfitPrice.
+% similar(Piece,SimilarPiece) :- 
+%     neuralCategory(Piece,C),
+%     % Get a few attributes here
+%     % TODO: Choose an images in database (that don't have labels, not needed or can update database as they are queried)
+%     %       I think a good idea here might be to choose a set of images to choose from and pick max from them (i.e. similar(Piece,SimilarPiece,SetOfPiecesToLookAt)). 
+%     %       In real-life application: these sets could be partitions of total dataset and these partitions can be run in parallel to get global, most similar piece.
+%     neuralCategory(SimilarPiece,C),
+%     neuralAttribute(SimilarPiece,A).
+%     % TODO: Potentially, show image here via IO.

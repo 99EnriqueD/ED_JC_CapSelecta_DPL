@@ -21,7 +21,6 @@ class Net(nn.Module):
             nn.ReLU(True)
         )
         self.classifier = nn.Sequential(
-
             nn.Linear(16 * 11 * 4, 120),
             nn.ReLU(),
             nn.Linear(120, 84),
