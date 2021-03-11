@@ -1,41 +1,34 @@
 nn(fashion_mnist_net,[X], O, [0,1,2,3,4,5,6,7,8,9]) :: category(X,O).
 
-% Appropriate Wardrobe ------------------------------------------------------------------------------------------------------------------
+%Tshirt = 0
+%Trouser = 1
+%Pullover = 2
+%Dress = 3
+%Coat = 4
+%Sandal = 5
+%Shirt = 6
+%Sneaker = 7
+%Bag = 8
+%Ankleboot = 9
 
-% Tshirt
-rain(0,True).
-%Trouser
-price(1,25).
-%Pullover
-price(2,20).
-%Dress
-price(3,25).
-%Coat
-price(4,50).
-%Sandal
-price(5,40).
-%Shirt
-price(6,20).
-%Sneaker
-price(7,30).
-%Bag
-price(8,60).
-%Ankleboot
-price(9,20).
+% Appropriate Wardrobe ------------------------------------------------------------------------------------------------------------------
 
 % Wardrobe must include a coat or pullover.
 goodForRain(Pieces,1) :- member(2,Pieces).
 goodForRain(Pieces,1) :- member(4,Pieces).
-goodForRain(Pieces,0) :- \+ (member(2,Pieces) ; member(4,Pieces))
+goodForRain(Pieces,0).
+% goodForRain(Pieces,0) :- \+ (member(2,Pieces) ; member(4,Pieces)).
 
 % Wardrobe must not include sandals nor a tshirt.
 formal(Pieces,0) :- member(5,Pieces).
-formal(Pieces,0) :- member(3,Pieces).
-formal(Pieces,1) :- \+ (member(5,Pieces) ; member(3,Pieces))
+formal(Pieces,0) :- member(0,Pieces).
+formal(Pieces,1).
+% formal(Pieces,1) :- \+ (member(5,Pieces) ; member(3,Pieces)).
 
 % Wardrobe must include sandals and a tshirt.
 goodForWarm(Pieces,1) :- member(0,Pieces), member(5,Pieces).
-goodForWarm(Pieces,0) :- \+ (member(0,Pieces), member(5,Pieces)).
+goodForWarm(Pieces,0).
+% goodForWarm(Pieces,0) :- \+ (member(0,Pieces), member(5,Pieces)).
 
 
 % Whether the pieces int the given wardrobe make a full outfit.
@@ -60,7 +53,8 @@ appropriateWardrobe(I1, I2, I3, Rain, Formal, Warm, Full) :-
     goodForRain(Pieces,Rain),
     goodForWarm(Pieces,Warm),
     formal(Pieces,Formal),
-    fullOutfit(Pieces,Full). % TODO: make sure backtracking doesn't mess things up!
+    fullOutfit(Pieces,Full). 
+    % NOTE: make sure backtracking doesn't mess things up!
     
 
 
