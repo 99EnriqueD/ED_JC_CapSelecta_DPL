@@ -19,14 +19,13 @@ goodForRain(Pieces,1) :- member(4,Pieces).
 goodForRain(Pieces,0).
 % goodForRain(Pieces,0) :- \+ (member(2,Pieces) ; member(4,Pieces)).
 
-% Wardrobe must not include sandals nor a tshirt.
-formal(Pieces,0) :- member(5,Pieces).
-formal(Pieces,0) :- member(0,Pieces).
+% Wardrobe must not include sneakers.
+formal(Pieces,0) :- member(7,Pieces).
 formal(Pieces,1).
 % formal(Pieces,1) :- \+ (member(5,Pieces) ; member(3,Pieces)).
 
-% Wardrobe must include sandals and a tshirt.
-goodForWarm(Pieces,1) :- member(0,Pieces), member(5,Pieces).
+% Wardrobe must include sandals or a tshirt.
+goodForWarm(Pieces,1) :- member(0,Pieces); member(5,Pieces).
 goodForWarm(Pieces,0).
 % goodForWarm(Pieces,0) :- \+ (member(0,Pieces), member(5,Pieces)).
 

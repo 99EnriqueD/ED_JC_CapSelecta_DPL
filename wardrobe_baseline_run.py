@@ -76,12 +76,18 @@ log_period = 50
 running_loss = 0.0
 log = Logger()
 
+# check = True
+
 for epoch in range(1):
 
     for data in trainloader:
         inputs, labels = data
         inputs, labels = Variable(inputs), Variable(labels)     
         optimizer.zero_grad()
+        # if check :
+        #     print(labels)
+        #     print(labels.size)
+        #     check = False
 
         outputs = net(inputs)
 

@@ -16,7 +16,7 @@ import random
 import torchvision.transforms as transforms
 
 
-train_set = torchvision.datasets.FashionMNIST("../data", download=True, transform=
+train_set = torchvision.datasets.FashionMNIST("FashionMNIST/data", download=True, transform=
                                                 transforms.Compose([transforms.ToTensor()]))
 test_set = torchvision.datasets.FashionMNIST("../data", download=True, train=False, transform=
                                                transforms.Compose([transforms.ToTensor()])) 
@@ -28,11 +28,15 @@ piecesGoodForRain = {2,4}
 piecesGoodForWarm = {0,5}
 
 def isGoodForWarm(pieces) :
-    piecesSet = set(pieces)
-    if piecesSet >= piecesGoodForWarm :
-        return 1
-    else :
-        return 0 
+        # piecesSet = set(pieces)
+    # if piecesSet >= piecesGoodForWarm :
+    #     return 1
+    # else :
+    #     return 0 
+    for piece in pieces:
+        if piece in piecesGoodForWarm:
+            return 1
+    return 0
 
 def isGoodForRain(pieces) :
     for piece in pieces:
@@ -42,7 +46,7 @@ def isGoodForRain(pieces) :
 
 def isFormal(pieces) :
     for piece in pieces :
-        if piece in piecesGoodForWarm :
+        if piece == 7 : # Sneakers are not formal
             return 0
     return 1
 

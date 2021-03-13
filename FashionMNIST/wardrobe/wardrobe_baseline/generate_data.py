@@ -30,11 +30,15 @@ piecesGoodForRain = {2,4}
 piecesGoodForWarm = {0,5}
 
 def isGoodForWarm(pieces) :
-    piecesSet = set(pieces)
-    if piecesSet >= piecesGoodForWarm :
-        return 1
-    else :
-        return 0 
+    # piecesSet = set(pieces)
+    # if piecesSet >= piecesGoodForWarm :
+    #     return 1
+    # else :
+    #     return 0 
+    for piece in pieces:
+        if piece in piecesGoodForWarm:
+            return 1
+    return 0
 
 def isGoodForRain(pieces) :
     for piece in pieces:
@@ -44,7 +48,7 @@ def isGoodForRain(pieces) :
 
 def isFormal(pieces) :
     for piece in pieces :
-        if piece in piecesGoodForWarm :
+        if piece == 7 : # Sneakers are not formal
             return 0
     return 1
 
@@ -72,15 +76,17 @@ def hasPieceInSet(pieces, setToCheck) :
     return False
 
 
-def label(bits) :
+def labelVector(bits) :
+    # This will 
     return 1* bits[3] + 2*bits[2] + 4*bits[1] + 8*bits[0]
+
 
 def next_example(dataset, i):
     x, y, z = next(i), next(i), next(i)
     (_, c1), (_, c2), (_, c3) = dataset[x], dataset[y], dataset[z]
     pieces = [c1,c2,c3]
     bits =  [isGoodForRain(pieces), isFormal(pieces), isGoodForWarm(pieces), hasFullOutfit(pieces)]
-    return x, y, z, label(bits)
+    return x, y, z, labelVector(bits)
 
 
 def gather_examples(dataset_name, filename):
@@ -98,17 +104,19 @@ def gather_examples(dataset_name, filename):
     with open(filename, 'w') as f:
         for example in examples:
             args = tuple('{}'.format(e) for e in example[:-1])
-            f.write('{},{},{},{}\n'.format(*args, example[-1]))
+            f.write('{} {} {} {}\n'.format(*args, example[-1]))
             # appropriateWardrobe(I1, I2, I3, Rain, Formal, Warm, Full)
 
-image, label = test_set[367]
-print(label)
+# image, label = test_set[4081]
+# print(label)
 
-image, label = test_set[6186]
-print(label)
+# image, label = test_set[4855]
+# print(label)
 
-image, label = test_set[4099]
-print(label)
+# image, label = test_set[2691]
+# print(label)
+
+# print(hasFullOutfit([5,0,1]))
 
 gather_examples('train', 'train_wardrobe_base_data.txt')
 gather_examples('test', 'test_wardrobe_base_data.txt')

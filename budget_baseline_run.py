@@ -8,7 +8,7 @@ from torch.autograd import Variable
 from logger import Logger
 import numpy as np
 
-from FashionMNIST.budget_baseline.net import Net
+from FashionMNIST.budget.budget_baseline.net import Net
 
 
 def test_F_MNIST():
@@ -64,10 +64,10 @@ criterion = nn.NLLLoss()
 
 train_dataset = F_budget(
     torchvision.datasets.FashionMNIST(root='FashionMNIST/data', train=True, download=True, transform=transform),
-    'FashionMNIST/budget_baseline/train_budget_base_data.txt')
+    'FashionMNIST/budget/budget_baseline/train_budget_base_data.txt')
 test_dataset = F_budget(
     torchvision.datasets.FashionMNIST(root='FashionMNIST/data', train=False, download=True, transform=transform),
-    'FashionMNIST/budget_baseline/test_budget_base_data.txt')
+    'FashionMNIST/budget/budget_baseline/test_budget_base_data.txt')
 trainloader = torch.utils.data.DataLoader(train_dataset, batch_size=2, shuffle=True, num_workers=1)
 
 i = 1
