@@ -21,7 +21,7 @@ class Net(nn.Module):
             nn.ReLU(True)
         )
         self.classifier = nn.Sequential(
-            nn.Linear(16 * 11 * 4, 120),
+            nn.Linear(1152, 120),
             nn.ReLU(),
             nn.Linear(120, 84),
             nn.ReLU(),
@@ -31,7 +31,7 @@ class Net(nn.Module):
 
     def forward(self, x):
         x = self.encoder(x)
-        x = x.view(-1, 16 * 11 * 4)
+        x = x.view(-1, 1152)
         x = self.classifier(x)
         return x
 

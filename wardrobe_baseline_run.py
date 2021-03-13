@@ -68,7 +68,7 @@ train_dataset = F_wardrobe(
 test_dataset = F_wardrobe(
     torchvision.datasets.FashionMNIST(root='FashionMNIST/data', train=False, download=True, transform=transform),
     'FashionMNIST/wardrobe/wardrobe_baseline/test_wardrobe_base_data.txt')
-trainloader = torch.utils.data.DataLoader(train_dataset, batch_size=2, shuffle=True, num_workers=1)
+trainloader = torch.utils.data.DataLoader(train_dataset, batch_size=1, shuffle=True, num_workers=1)
 
 i = 1
 test_period = 500
@@ -76,7 +76,6 @@ log_period = 50
 running_loss = 0.0
 log = Logger()
 
-# check = True
 
 for epoch in range(1):
 
@@ -84,10 +83,6 @@ for epoch in range(1):
         inputs, labels = data
         inputs, labels = Variable(inputs), Variable(labels)     
         optimizer.zero_grad()
-        # if check :
-        #     print(labels)
-        #     print(labels.size)
-        #     check = False
 
         outputs = net(inputs)
 

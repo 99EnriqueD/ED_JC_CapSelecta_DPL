@@ -12,7 +12,9 @@ nn(fashion_mnist_net,[X], O, [0,1,2,3,4,5,6,7,8,9]) :: category(X,O).
 %Ankleboot = 9
 
 % Appropriate Wardrobe ------------------------------------------------------------------------------------------------------------------
-
+member(El, [H|T]) :- member_(T, El, H).
+member_(_, El, El).
+member_([H|T], El,_) :- member_(T, El, H).
 % Wardrobe must include a coat or pullover.
 goodForRain(Pieces,1) :- member(2,Pieces).
 goodForRain(Pieces,1) :- member(4,Pieces).
@@ -48,11 +50,11 @@ appropriateWardrobe(I1, I2, I3, Rain, Formal, Warm, Full) :-
     category(I1,C1),
     category(I2,C2),
     category(I3,C3),
-    Pieces = [C1,C2,C3],
-    goodForRain(Pieces,Rain),
-    goodForWarm(Pieces,Warm),
-    formal(Pieces,Formal),
-    fullOutfit(Pieces,Full). 
+    % Pieces = [C1,C2,C3],
+    goodForRain([C1,C2,C3],Rain),
+    goodForWarm([C1,C2,C3],Warm),
+    formal([C1,C2,C3],Formal),
+    fullOutfit([C1,C2,C3],Full). 
     % NOTE: make sure backtracking doesn't mess things up!
     
 
