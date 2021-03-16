@@ -15,15 +15,15 @@ mapping = {1:6,2:6,3:0,4:6,5:0,6:2,7:0,8:0,9:0,10:2,11:2,12:1,13:6,14:6,15:1,16:
 46:5,47:5,48:5,49:5,50:5}
 
 good_rain= {1,6}
-good_warm= {2,5}
+#good_warm= {2,5}
 tops= {0,1,6}
 bottoms = {2,3,4,5}
 
-def isGoodForWarm(pieces) :
-    for piece in pieces:
-        if piece in good_warm:
-            return 1
-    return 0
+#def isGoodForWarm(pieces) :
+ #   for piece in pieces:
+  #      if piece==2 and not(1 in pieces):
+   #         return 1
+    #return 0
 
 def isGoodForRain(pieces) :
     for piece in pieces:
@@ -33,7 +33,7 @@ def isGoodForRain(pieces) :
 
 def isFormal(pieces) :
     for piece in pieces :
-        if piece == 3: # casual trousers
+        if piece == 3 or piece == 1: # casual trousers/trui
             return 0
     return 1
 
@@ -50,14 +50,14 @@ def hasPieceInSet(pieces, setToCheck) :
 
 def labelVector(bits) :
     # This will 
-    return 1* bits[3] + 2*bits[2] + 4*bits[1] + 8*bits[0]
+    #return 1* bits[3] + 2*bits[2] + 4*bits[1] + 8*bits[0]
+    return 4*bits[0] + 2*bits[1] + 1*bits[2]
 
 def next_example(dataset, i):
     x,y = next(i), next(i)
     (_, c1), (_, c2)= dataset[x], dataset[y]
     pieces =[mapping.get(c1),mapping.get(c2)]
-    bits =  [isGoodForRain(pieces), isFormal(pieces), isGoodForWarm(pieces), hasFullOutfit(pieces)]
-    print(bits, "<--- bits", pieces, "<--- pieces")
+    bits =  [isGoodForRain(pieces), isFormal(pieces), hasFullOutfit(pieces)]
     return x, y, labelVector(bits)
 
 
