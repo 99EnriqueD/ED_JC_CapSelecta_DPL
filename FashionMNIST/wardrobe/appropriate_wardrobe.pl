@@ -50,7 +50,6 @@ appropriateWardrobe(I1, I2, I3, Rain, Formal, Warm, Full) :-
     category(I1,C1),
     category(I2,C2),
     category(I3,C3),
-    % Pieces = [C1,C2,C3],
     goodForRain([C1,C2,C3],Rain),
     goodForWarm([C1,C2,C3],Warm),
     formal([C1,C2,C3],Formal),
