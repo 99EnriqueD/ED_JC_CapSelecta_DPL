@@ -77,7 +77,6 @@ def hasPieceInSet(pieces, setToCheck) :
 
 
 def labelVector(bits) :
-    # This will 
     return 1* bits[3] + 2*bits[2] + 4*bits[1] + 8*bits[0]
 
 

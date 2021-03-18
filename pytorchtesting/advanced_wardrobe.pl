@@ -10,12 +10,13 @@ member_([H|T], El,_) :- member_(T, El, H).
 %broek normaal 4
 %skirt + dress 5
 %coat 6
+
 % Wardrobe must include a coat or pulloverthingy.
 goodForRain(Pieces,1) :- member(6,Pieces).
 goodForRain(Pieces,1) :- member(1,Pieces).
 goodForRain(Pieces,0).
 
-% Wardrobe must not include casual trousers.
+% Wardrobe must not include casual trousers or a pulloverthingy.
 formal(Pieces,0) :- member(3,Pieces).
 formal(Pieces,1).
 
