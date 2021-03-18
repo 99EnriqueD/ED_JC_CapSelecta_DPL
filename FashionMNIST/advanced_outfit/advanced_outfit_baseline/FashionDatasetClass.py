@@ -38,14 +38,9 @@ class FashionTrainDataset(Dataset):
                                 self.landmarks_frame.iloc[idx, 0])
         image = io.imread(img_name)
         landmarks = self.label_frame.iloc[idx, 0]
-        #landmarks = np.array([landmarks])
-        #landmarks = landmarks.astype('float').reshape(-1, 2)
-        return image,landmarks
-
         if self.transform:
-            sample = self.transform(sample)
-
-        return sample
+            image = self.transform(image)
+        return image,landmarks
 
 class FashionTestDataset(Dataset):
 
@@ -58,7 +53,7 @@ class FashionTestDataset(Dataset):
                 on a sample.
         """
         self.landmarks_frame = pd.read_csv(csv_file)
-        
+    
         self.label_frame= pd.read_csv(label_file)
         self.root_dir = root_dir
         self.transform = transform
@@ -76,10 +71,15 @@ class FashionTestDataset(Dataset):
         landmarks = self.label_frame.iloc[idx, 0]
         #landmarks = np.array([landmarks])
         #landmarks = landmarks.astype('float').reshape(-1, 2)
+        if self.transform:
+            image = self.transform(image)
         return image,landmarks
 
-        if self.transform:
-            sample = self.transform(sample)
 
-        return sample
-
+#transformz = transforms.Compose([
+ #       transforms.ToTensor(),
+  #      transforms.RandomResizedCrop(224),
+   #     transforms.Normalize((0.5), (0.5))
+    #])
+#data=FashionTrainDataset(transform= transformz)
+#print(data[0][1])
