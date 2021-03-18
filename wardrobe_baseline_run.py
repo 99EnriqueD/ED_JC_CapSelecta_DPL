@@ -55,8 +55,10 @@ class F_wardrobe(Dataset):
         return torch.cat((self.dataset[i1][0], self.dataset[i2][0], self.dataset[i3][0]), 1), l
 
 
-
+device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+print(device)
 net = Net()
+net = net.to(device)
 optimizer = optim.Adam(net.parameters(), lr=0.001)
 transform = transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.5), (0.5),(0.5))])
 criterion = nn.NLLLoss()
