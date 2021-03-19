@@ -1,4 +1,4 @@
-nn(fashion_mnist_net,[X], O, [0,1,2,3,4,5,6]) :: category(X,O).
+nn(fashion_df_net,[X], O, [0,1,2,3,4,5,6]) :: category(X,O).
 
 memberchk(El, L) :- once(member(El,L)).
 %%%%%%%

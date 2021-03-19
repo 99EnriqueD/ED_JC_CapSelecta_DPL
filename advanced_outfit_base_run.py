@@ -11,6 +11,9 @@ from logger import Logger
 import numpy as np
 from FashionMNIST.advanced_outfit.advanced_outfit_baseline.FashionDatasetClass import FashionTrainDataset,FashionTestDataset
 
+# Wardrobe specific parameters:
+num_ftrs_wardrobe = 8
+
 ####
 class Advanced_outfit(Dataset):
     
@@ -42,7 +45,7 @@ trainloader = torch.utils.data.DataLoader(train_dataset, batch_size=1, shuffle=T
 
 # Confusion matrix
 def test_DF():
-    confusion = np.zeros((9, 9), dtype=np.uint32)  # First index actual, second index predicted
+    confusion = np.zeros((num_ftrs_wardrobe, num_ftrs_wardrobe), dtype=np.uint32)  # First index actual, second index predicted
     correct = 0
     n = 0
     N = len(test_dataset)
@@ -58,40 +61,31 @@ def test_DF():
     acc = correct / n
     print(confusion)
     F1 = 0
-    #for nr in range(17):
-     #   TP = confusion[nr, nr]
-      #  FP = sum(confusion[:, nr]) - TP
-       # FN = sum(confusion[nr, :]) - TP
-       # F1 += 2 * TP / (2 * TP + FP + FN) * (FN + TP) / N
+    for nr in range(num_ftrs_wardrobe):
+       TP = confusion[nr, nr]
+       FP = sum(confusion[:, nr]) - TP
+       FN = sum(confusion[nr, :]) - TP
+       F1 += 2 * TP / (2 * TP + FP + FN) * (FN + TP) / N
     print('F1: ', F1)
     print('Accuracy: ', acc)
     return F1
-# Wardrobe specific parameters:
-num_ftrs_wardrobe = 16 
+
 
 model_conv = torchvision.models.resnet18(pretrained=True)
 
 # Freeze feature extraction weights to speed up training (these parameters will not be changed during back propagation)
-for param in model_conv.parameters():
-    param.requires_grad = False
+# for param in model_conv.parameters():
+#     param.requires_grad = False
 
 
 # Parameters of newly constructed modules have requires_grad=True by default
 num_ftrs_resnet = model_conv.fc.in_features
 model_conv.fc = nn.Linear(num_ftrs_resnet, num_ftrs_wardrobe)
 
+model_conv.eval()
+
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-
 net = model_conv.to(device)
-
-# ED: Should we change this to the same criterion as all the other training things?
-#criterion = nn.CrossEntropyLoss()
-
-#optimizer_conv = optim.SGD(model_conv.fc.parameters(), lr=0.001, momentum=0.9)
-
-# Decay LR by a factor of 0.1 every 7 epochs
-#exp_lr_scheduler = lr_scheduler.StepLR(optimizer_conv, step_size=7, gamma=0.1)
-
 
 # train
 i = 1

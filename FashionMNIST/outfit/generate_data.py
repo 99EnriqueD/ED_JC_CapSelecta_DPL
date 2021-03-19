@@ -87,7 +87,7 @@ def gather_examples(dataset_name, filename):
     with open(filename, 'w') as f:
         for example in examples:
             args = tuple('{}({})'.format(dataset_name, e) for e in example[:-3])
-            f.write('appropriateWardrobe({},{},{},{},{}).\n'.format(*args, example[-3], example[-2], example[-1],))
+            f.write('appropriateWardrobe({},{},{},{},{}).\n'.format(*args, example[-3], example[-2], example[-1]))
             # appropriateWardrobe(I1, I2, I3, Rain, Formal, Warm, Full)
 
 # image, label = test_set[1886]

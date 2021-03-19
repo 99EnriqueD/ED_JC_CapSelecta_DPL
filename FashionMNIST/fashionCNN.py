@@ -69,6 +69,6 @@ def neural_predicate(network, i):
     output = network.net(d)
     return output.squeeze(0)
 
-transform = transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.5,), (0.5, ))])
+transform = transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.5,), (0.5,))])
 mnist_train_data = torchvision.datasets.FashionMNIST(root='data/FashionMNIST', train=True, download=True,transform=transform)
 mnist_test_data = torchvision.datasets.FashionMNIST(root='data/FashionMNIST', train=False, download=True,transform=transform)
