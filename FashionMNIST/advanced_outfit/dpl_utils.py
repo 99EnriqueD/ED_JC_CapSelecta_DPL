@@ -29,7 +29,6 @@ def test_Fashion_MNIST(model,max_digit=7,name='fashion_mnist_net'):
 
 
 def neural_predicate(network, i):
-    print("IN DPL UTIL N PREDICATE")
     dataset = str(i.functor)
     i = int(i.args[0])
     if dataset == 'train':

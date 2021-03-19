@@ -1,8 +1,8 @@
 import matplotlib.pyplot as plt
 
 def save_data(iteration,data,file_name):
-        with open(file_name) as f:
-                f.write(iteration:data)
+        with open(file_name,'w+') as f:
+                f.write(str(iteration) + ":" + str(data))
         return
 
 def make_plot(dpl_data_file,baseline_data_file,label_base,label_dpl,output_file):
@@ -15,7 +15,7 @@ def make_plot(dpl_data_file,baseline_data_file,label_base,label_dpl,output_file)
                 splitted= line.split(":")
                 iterations_dpl.append(int(splitted[0]))
                 to_plot_dpl.append(float(splitted[1]))
-        with open(base_data_file) as f:
+        with open(baseline_data_file) as f:
                 line= f.readlines()
                 splitted= line.split(":")
                 iterations_base.append(int(splitted[0]))
