@@ -229,5 +229,9 @@ DeepFashion/VGG16_Global_Cat_Atr.pth
 *.pth
 *.bk
 
+data/anno_coarse
+data/anno_fine
+data/images
+
 sdd/
 
