@@ -29,14 +29,18 @@ def test_Fashion_MNIST(model,max_digit=7,name='fashion_mnist_net'):
 
 
 def neural_predicate(network, i):
+    print("N Pred:")
     dataset = str(i.functor)
     i = int(i.args[0])
     if dataset == 'train':
         d, l = df_train_data[i]
     elif dataset == 'test':
         d, l = df_test_data[i]
+    print("d : " + str(d))
+    print("l : " + str(l))
     d = Variable(d.unsqueeze(0))
     output = network.net(d)
+    print("output : " + str(output))
     return output.squeeze(0)
 
 transform = transforms.Compose([
@@ -45,5 +49,5 @@ transform = transforms.Compose([
         transforms.RandomResizedCrop(224),
         transforms.Normalize((0.5), (0.5))
     ])
-df_train_data = FashionTrainDataset(transform= transform)
-df_test_data = FashionTestDataset(transform= transform)
+df_train_data = FashionTrainDataset(transform=transform)
+df_test_data = FashionTestDataset(transform=transform)

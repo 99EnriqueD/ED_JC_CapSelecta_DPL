@@ -7,7 +7,7 @@ import torch.optim as optim
 from torch.autograd import Variable
 from logger import Logger
 import numpy as np
-from FashionMNIST.graphs import save_data
+from FashionMNIST.graphs import save_data, clear_file
 
 from FashionMNIST.budget.budget_baseline.net import Net
 
@@ -29,6 +29,9 @@ class F_budget(Dataset):
             return torch.cat((self.dataset[i1][0], self.dataset[i2][0]), 1), l
 
 if __name__ == '__main__':
+
+    clear_file("budget_baseline_F1.txt")
+    clear_file("budget_baseline_acc.txt")
 
     num_classes = 17
 

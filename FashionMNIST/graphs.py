@@ -1,8 +1,16 @@
 import matplotlib.pyplot as plt
 
+def clear_file(file_name) :
+        if file_name[-4:] == ".txt":
+                with open(file_name,"r+") as f:
+                        f.truncate()
+        else :
+                print("Illegal file to clear!")
+        return
+
 def save_data(iteration,data,file_name):
-        with open(file_name,'w+') as f:
-                f.write(str(iteration) + ":" + str(data))
+        with open(file_name,'a') as f:
+                f.write(str(iteration) + ":" + str(data) + "\n")
         return
 
 def make_plot(dpl_data_file,baseline_data_file,label_base,label_dpl,output_file):

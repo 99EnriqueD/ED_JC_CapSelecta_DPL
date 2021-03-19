@@ -24,7 +24,6 @@ from network import Network
 num_ftrs_wardrobe = 7
 
 model_conv = torchvision.models.resnet18(pretrained=True)
-model_conv
 
 # Freeze feature extraction weights to speed up training (these parameters will not be changed during back propagation)
 for param in model_conv.parameters():
@@ -32,15 +31,16 @@ for param in model_conv.parameters():
 
 # Parameters of newly constructed modules have requires_grad=True by default
 num_ftrs_resnet = model_conv.fc.in_features
-model_conv.fc = nn.Linear(num_ftrs_resnet,num_ftrs_wardrobe)
-# model_conv.fc = nn.Sequential(
-#     nn.Linear(num_ftrs_resnet, num_ftrs_wardrobe),
-#     nn.Softmax(1)
-# )
+# model_conv.fc = nn.Linear(num_ftrs_resnet,num_ftrs_wardrobe)
+model_conv.fc = nn.Sequential(
+    nn.Linear(num_ftrs_resnet, num_ftrs_wardrobe),
+    nn.Softmax(1)
+)
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 print(device)
-network = model_conv.to(device)
+model_conv = model_conv.to(device)
+network = model_conv.eval()
 
 
 #### DPL
@@ -58,7 +58,6 @@ with open(pl_file_path) as f:
     
 # Might need to make multiple nets and add them all to model
 net = Network(network,'fashion_df_net', neural_predicate)
-
 
 net.optimizer = torch.optim.Adam(network.parameters(), lr=0.001)
 model = Model(problog_string,[net],caching=False)
