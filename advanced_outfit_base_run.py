@@ -42,7 +42,7 @@ trainloader = torch.utils.data.DataLoader(train_dataset, batch_size=1, shuffle=T
 
 # Confusion matrix
 def test_DF():
-    confusion = np.zeros((19, 19), dtype=np.uint32)  # First index actual, second index predicted
+    confusion = np.zeros((9, 9), dtype=np.uint32)  # First index actual, second index predicted
     correct = 0
     n = 0
     N = len(test_dataset)
@@ -58,11 +58,11 @@ def test_DF():
     acc = correct / n
     print(confusion)
     F1 = 0
-    for nr in range(17):
-        TP = confusion[nr, nr]
-        FP = sum(confusion[:, nr]) - TP
-        FN = sum(confusion[nr, :]) - TP
-        F1 += 2 * TP / (2 * TP + FP + FN) * (FN + TP) / N
+    #for nr in range(17):
+     #   TP = confusion[nr, nr]
+      #  FP = sum(confusion[:, nr]) - TP
+       # FN = sum(confusion[nr, :]) - TP
+       # F1 += 2 * TP / (2 * TP + FP + FN) * (FN + TP) / N
     print('F1: ', F1)
     print('Accuracy: ', acc)
     return F1
@@ -100,7 +100,7 @@ log_period = 50
 running_loss = 0.0
 log = Logger()
 optimizer = optim.Adam(net.parameters(), lr=0.001)
-criterion = nn.NLLLoss()
+criterion = nn.CrossEntropyLoss()
 for epoch in range(1):
 
     for data in trainloader:
