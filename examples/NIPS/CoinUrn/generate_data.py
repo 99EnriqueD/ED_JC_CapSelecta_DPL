@@ -10,8 +10,6 @@ colors = {'red':(1.0,0.0,0.0),'green':(0.0,0.1,0.0),'blue':(0.0,0.0,1.0)}
 color_scaling = 0.03
 
 
-
-
 def random_color(color):
     h,s,v = colorsys.rgb_to_hsv(*colors[color])
     h = (random.gauss(h,color_scaling))%1.0

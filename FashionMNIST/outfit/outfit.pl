@@ -37,13 +37,13 @@ memberchk(El, L) :- once(member(El,L)).
 % Wardrobe must include a coat or pullover.
 goodForRain(Pieces,1) :- memberchk(2,Pieces).
 goodForRain(Pieces,1) :- memberchk(4,Pieces).
-goodForRain(Pieces,0).
+goodForRain(Pieces,0) :- \+goodForRain(Pieces,1).
 % goodForRain(Pieces,0) :- \+ (memberchk(2,Pieces) ; memberchk(4,Pieces)).
 
 % Wardrobe must not include a tshirt or a dress
 formal(Pieces,0) :- memberchk(0,Pieces).
 formal(Pieces,0) :- memberchk(3,Pieces).
-formal(Pieces,1).
+formal(Pieces,1) :- \+formal(Pieces,0).
 % formal(Pieces,1) :- \+ (memberchk(5,Pieces) ; memberchk(3,Pieces)).
 
 % Wardrobe must include sandals or a tshirt.
@@ -55,7 +55,7 @@ formal(Pieces,1).
 
 % Whether the pieces int the given wardrobe make a full outfit.
 fullOutfit(Pieces,1) :- hasTop(Pieces), hasBottoms(Pieces).
-fullOutfit(Pieces,0).
+fullOutfit(Pieces,0) :- \+fullOutfit(Pieces,1).
 
 hasTop(Pieces) :- memberchk(0,Pieces). 
 hasTop(Pieces) :- memberchk(2,Pieces).
