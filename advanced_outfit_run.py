@@ -60,7 +60,7 @@ with open(pl_file_path) as f:
 # Might need to make multiple nets and add them all to model
 net = Network(netwrk,'fashion_df_net', neural_predicate)
 
-net.optimizer = torch.optim.Adam(network.parameters(), lr=0.001)
+net.optimizer = torch.optim.Adam(netwrk.parameters(), lr=0.001)
 model = Model(problog_string,[net],caching=False)
 optimizer = Optimizer(model,2)
 
