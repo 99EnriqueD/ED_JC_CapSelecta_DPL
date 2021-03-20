@@ -8,6 +8,7 @@ from problog.sdd_formula import SDD
 from zipfile import ZipFile
 import pickle
 from gradient_semiring import SemiringGradient
+# import numpy as np
 
 class Model(object):
 
@@ -106,7 +107,9 @@ class Model(object):
         for d in data:
             args = list(d.args)
             args[-nr_output:] = [Var('X_{}'.format(i)) for i in range(nr_output)]
+            print("ARGS : " + str(args))
             q = d(*args)
+            print("q : " + str(q))
             out = self.solve(q, None, test)
             out = max(out, key=lambda x: out[x][0])
             if out == d:
@@ -116,6 +119,15 @@ class Model(object):
                     print('Wrong', d, 'vs', out)
         print('Accuracy', correct / len(data))
         return [('Accuracy', correct / len(data))]
+    
+    # def acc_F1_cm(self, data, nr_classes, nr_output=1, test=False, verbose=False) :
+    #     confusion = np.zeros((nr_classes, nr_classes), dtype=np.uint32)  # First index actual, second index predicted
+    #     correct = 0
+    #     n= 0
+    #     N= len(data)
+    #     for d in data:
+    #         args = list(d.args)
+
 
     def save_state(self, location):
         with ZipFile(location,'w') as zipf:

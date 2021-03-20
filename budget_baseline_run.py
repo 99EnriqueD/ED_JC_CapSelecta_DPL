@@ -7,7 +7,7 @@ import torch.optim as optim
 from torch.autograd import Variable
 from logger import Logger
 import numpy as np
-from FashionMNIST.graphs import save_data, clear_file
+from graphs.graphs import save_data, clear_file, save_cm
 
 from FashionMNIST.budget.budget_baseline.net import Net
 
@@ -52,6 +52,7 @@ if __name__ == '__main__':
             n += 1
         acc = correct / n
         print(confusion)
+        save_cm(confusion,"budget_baseline_cm.txt")
         F1 = 0
         for nr in range(num_classes):
             TP = confusion[nr, nr]
@@ -60,8 +61,8 @@ if __name__ == '__main__':
             F1 += 2 * TP / (2 * TP + FP + FN) * (FN + TP) / N
         print('F1: ', F1)
         print('Accuracy: ', acc)
-        save_data(i,F1,"budget_baseline_F1.txt")
-        save_data(i,acc,"budget_baseline_acc.txt")
+        save_data(iteration,F1,"budget_baseline_F1.txt")
+        save_data(iteration,acc,"budget_baseline_acc.txt")
         return F1
 
     
@@ -109,5 +110,7 @@ if __name__ == '__main__':
                 log.log('loss', i * 2, running_loss / log_period)
                 running_loss = 0
             if i % test_period == 0:
-                log.log('F1', i * 2, test_F_MNIST(i))
+                log.log('F1', i * 2, test_F_MNIST(i * 2))
             i += 1
+
+    log.write_to_file('graphs/budget_baseline')

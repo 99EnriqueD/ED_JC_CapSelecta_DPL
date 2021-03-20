@@ -90,3 +90,46 @@ def train_model(model,queries,nr_epochs,optimizer, loss_function = train, test_i
         optimizer.step_epoch()
         print('Epoch time: ',time.time()-epoch_start)
     return logger
+
+# A different version of train_model that does not use a logger and gives the iteration number to `test`
+def train_model2(model,queries,nr_epochs,optimizer, loss_function = train, test_iter=1000,test=None,log_iter=100,snapshot_iter=None,snapshot_name='model',shuffle=True):
+    signal.signal(signal.SIGINT, signal_handler)
+    i = 1
+    accumulated_loss = 0
+    # logger = Logger()
+    start = time.time()
+    print("Training for {} epochs ({} iterations).".format(nr_epochs,nr_epochs*len(queries)))
+    for epoch in range(nr_epochs):
+        epoch_start = time.time()
+        if interrupt:
+            break
+        print("Epoch",epoch+1)
+        q_indices = list(range(len(queries)))
+        if shuffle:
+            random.shuffle(q_indices)
+        for q in q_indices:
+            q = queries[q]
+            iter_time = time.time()
+            if interrupt:
+                break
+            loss = loss_function(model, optimizer, q)
+            accumulated_loss += loss
+            optimizer.step()
+            if snapshot_iter and i % snapshot_iter == 0:
+                fname = '{}_iter_{}.mdl'.format(snapshot_name,i)
+                print('Writing snapshot to '+fname)
+                model.save_state(fname)
+            if i % log_iter == 0:
+                print('Iteration: ',i,'\tAverage Loss: ',accumulated_loss/log_iter)
+                # logger.log('time',i,iter_time - start)
+                # logger.log('loss',i,accumulated_loss/log_iter)
+                # for k in model.parameters:
+                    # logger.log(str(k),i,model.parameters[k])
+                accumulated_loss = 0
+            if test is not None and i % test_iter == 0:
+                # logger.log_list(i,test(model))
+                test(model,i)
+            i += 1
+        optimizer.step_epoch()
+        print('Epoch time: ',time.time()-epoch_start)
+    return
