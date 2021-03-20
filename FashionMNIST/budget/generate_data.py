@@ -16,9 +16,9 @@ import random
 import torchvision.transforms as transforms
 
 
-train_set = torchvision.datasets.FashionMNIST("data/FashionMNIST", download=True, transform=
+train_set = torchvision.datasets.FashionMNIST("data", download=True, transform=
                                                 transforms.Compose([transforms.ToTensor()]))
-test_set = torchvision.datasets.FashionMNIST("data/FashionMNIST", download=True, train=False, transform=
+test_set = torchvision.datasets.FashionMNIST("data", download=True, train=False, transform=
                                                transforms.Compose([transforms.ToTensor()])) 
 
 

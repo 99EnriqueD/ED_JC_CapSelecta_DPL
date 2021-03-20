@@ -38,7 +38,7 @@ def test(model,iteration):
         out = max(out, key=lambda x: out[x][0])
         if out == d:
             correct += 1
-        confusion[labelMap[list(out.args)[-1]], labelMap[label]] += 1
+        confusion[labelMap[label], labelMap[list(out.args)[-1]]] += 1
         n+=1
 
     save_cm(confusion,"budget_cm.txt")

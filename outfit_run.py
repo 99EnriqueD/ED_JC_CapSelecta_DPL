@@ -20,7 +20,7 @@ nr_output = 3
 num_classes = 8
 
 def labelVector(bits) :
-    return 1*bits[2] + 2*bits[1] + 4*bits[0]
+    return 1*int(bits[2]) + 2*int(bits[1]) + 4*int(bits[0])
 
 def test(model,iteration):
     
@@ -38,10 +38,10 @@ def test(model,iteration):
         out = max(out, key=lambda x: out[x][0])
         if out == d:
             correct += 1
-        confusion[labelVector(list(out.args)[-3:]), labelVector(label)] += 1
+        confusion[labelVector(label), labelVector(list(out.args)[-nr_output:])] += 1
         n+=1
 
-    save_cm(confusion,"budget_cm.txt")
+    save_cm(confusion,"outfit_cm.txt")
     print(confusion)
     F1 = 0
     for nr in range(num_classes):
@@ -52,8 +52,8 @@ def test(model,iteration):
 
     acc = correct / N
     print("Acc : " + str(acc))
-    save_data(iteration,acc,"budget_acc.txt")
-    save_data(iteration,F1,"budget_F1.txt")
+    save_data(iteration,acc,"outfit_acc.txt")
+    save_data(iteration,F1,"outfit_F1.txt")
     return 
 
 train_queries = load(rel_path + 'train_outfit_data.txt')
@@ -72,5 +72,4 @@ model = Model(problog_string,[net],caching=False)
 optimizer = Optimizer(model,2)
 
 # train_model(model,train_queries,1,optimizer, test_iter=1000,test=lambda x: x.accuracy(test_queries, test=True), snapshot_iter=10000)
-
 train_model2(model,train_queries,1,optimizer,test_iter=1000,test=test,snapshot_iter=10000)
