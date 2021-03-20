@@ -63,7 +63,6 @@ class Network(object):
 
     def evaluate(self, inputs):
         probs = self.function(self, *inputs)
-        print(probs,"dit is probs")
         self.evaluated[tuple(inputs)] = probs
 
 

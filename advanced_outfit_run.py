@@ -56,6 +56,7 @@ test_queries = load(rel_path + 'test_advanced_outfit_data.txt')
 
 with open(pl_file_path) as f:
     problog_string = f.read()
+    print(problog_string)
     
 # Might need to make multiple nets and add them all to model
 net = Network(netwrk,'fashion_df_net', neural_predicate)
