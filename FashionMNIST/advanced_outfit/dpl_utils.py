@@ -6,7 +6,7 @@ import numpy as np
 from FashionMNIST.advanced_outfit.advanced_outfit_baseline.FashionDatasetClass import FashionTrainDataset,FashionTestDataset
 
 
-def test_Fashion_MNIST(model,max_digit=7,name='fashion_mnist_net'):
+def test_Fashion_MNIST(model,max_digit=7,name='fashion_df_net'):
     confusion = np.zeros((max_digit,max_digit),dtype=np.uint32) # First index actual, second index predicted
     N = 0
     for d,l in df_test_data:
