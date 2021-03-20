@@ -29,7 +29,7 @@ fullOutfit(Pieces,1) :- hasTop(Pieces), hasBottoms(Pieces).
 fullOutfit(Pieces,0).
 
 hasTop(Pieces) :-  memberchk(X,Pieces), memberchk(X,[0,1,6]).
-hasBottoms(Pieces) :- memberchk(X,Pieces), memberchk(x,[2,3,4,5]).
+hasBottoms(Pieces) :- memberchk(X,Pieces), memberchk(X,[2,3,4,5]).
 
 appropriateWardrobe(I1, I2, Rain, Formal, Full) :- 
     category(I1,C1),
