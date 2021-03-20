@@ -36,11 +36,12 @@ model_conv.fc = nn.Sequential(
     nn.Linear(num_ftrs_resnet, num_ftrs_wardrobe),
     nn.Softmax(1)
 )
+model_conv.eval()
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 print(device)
-model_conv = model_conv.to(device)
-network = model_conv.eval()
+netwrk = model_conv.to(device)
+
 
 
 #### DPL
@@ -57,7 +58,7 @@ with open(pl_file_path) as f:
     problog_string = f.read()
     
 # Might need to make multiple nets and add them all to model
-net = Network(network,'fashion_df_net', neural_predicate)
+net = Network(netwrk,'fashion_df_net', neural_predicate)
 
 net.optimizer = torch.optim.Adam(network.parameters(), lr=0.001)
 model = Model(problog_string,[net],caching=False)
