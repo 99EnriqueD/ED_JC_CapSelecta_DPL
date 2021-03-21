@@ -48,6 +48,7 @@ def make_plot(dpl_data_file,baseline_data_file,label_base,label_dpl,x_axis_name,
         plt.ylabel(y_axis_name)
         plt.legend(loc='best')
         plt.savefig(rel_path +output_file)
+        plt.clf()
         return
 
 make_plot("outfit_acc.txt","outfit_baseline_acc.txt","Baseline outfit classifier","DeepProbLog outfit classifier","iterations","accuracy","outfit accuracy")
