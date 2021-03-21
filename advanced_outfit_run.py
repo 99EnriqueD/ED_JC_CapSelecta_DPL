@@ -29,8 +29,8 @@ num_outputs_cm = 8
 model_conv = torchvision.models.resnet18(pretrained=True)
 
 # Freeze feature extraction weights to speed up training (these parameters will not be changed during back propagation)
-# for param in model_conv.parameters():
-#     param.requires_grad = False
+for param in model_conv.parameters():
+    param.requires_grad = False
 
 # Parameters of newly constructed modules have requires_grad=True by default
 num_ftrs_resnet = model_conv.fc.in_features
@@ -98,7 +98,6 @@ test_queries = load(rel_path + 'test_advanced_outfit_data.txt')
 
 with open(pl_file_path) as f:
     problog_string = f.read()
-    print(problog_string)
     
 # Might need to make multiple nets and add them all to model
 net = Network(netwrk,'fashion_df_net', neural_predicate)

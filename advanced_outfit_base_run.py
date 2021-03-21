@@ -11,10 +11,9 @@ from logger import Logger
 import numpy as np
 from FashionMNIST.advanced_outfit.advanced_outfit_baseline.FashionDatasetClass import FashionTrainDataset,FashionTestDataset
 from graphs.graphs import save_data, clear_file, save_cm
-
+from torch.optim import lr_scheduler
 
 class Advanced_outfit(Dataset):
-        
         def __init__(self, dataset, examples):
             self.data = list()
             self.dataset = dataset
@@ -45,7 +44,7 @@ if __name__ == '__main__':
             #transforms.RandomResizedCrop(224),
             transforms.ToTensor(),
             transforms.RandomResizedCrop(224),
-            transforms.Normalize((0.5), (0.5))
+            transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
         ])
     train_dataset = Advanced_outfit(FashionTrainDataset(transform= transform),"FashionMNIST/advanced_outfit/advanced_outfit_baseline/train_advanced_outfit_base_data.txt")
     test_dataset = Advanced_outfit(FashionTestDataset(transform= transform),"FashionMNIST/advanced_outfit/advanced_outfit_baseline/test_advanced_outfit_base_data.txt" )
@@ -54,21 +53,28 @@ if __name__ == '__main__':
     model_conv = torchvision.models.resnet18(pretrained=True)
 
     # Freeze feature extraction weights to speed up training (these parameters will not be changed during back propagation)
-    # for param in model_conv.parameters():
-    #     param.requires_grad = False
+    for param in model_conv.parameters():
+        param.requires_grad = False
 
 
     # Parameters of newly constructed modules have requires_grad=True by default
     num_ftrs_resnet = model_conv.fc.in_features
-    model_conv.fc = nn.Linear(num_ftrs_resnet, num_ftrs_wardrobe)
-
-    model_conv.eval()
+    # model_conv.fc = nn.Linear(num_ftrs_resnet, num_ftrs_wardrobe)
+    model_conv.fc = nn.Sequential(
+            nn.Linear(num_ftrs_resnet, 120),
+            nn.ReLU(),
+            nn.Linear(120, 84),
+            nn.ReLU(),
+            nn.Linear(84, num_ftrs_wardrobe),
+            # nn.Softmax(1)
+            )
+    
 
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     print(device)
     net = model_conv.to(device)
 
-
+    net.train()
 
     # Confusion matrix
     def test_DF(iteration):
@@ -76,6 +82,7 @@ if __name__ == '__main__':
         correct = 0
         n = 0
         N = len(test_dataset)
+        net.eval()
         for d, l in test_dataset:
             d = d.to(device)
             d = Variable(d.unsqueeze(0))
@@ -108,9 +115,12 @@ if __name__ == '__main__':
     test_period = 500
     log_period = 50
     running_loss = 0.0
-    log = Logger()
-    optimizer = optim.Adam(net.parameters(), lr=0.001)
+    # log = Logger()
+    # optimizer = optim.Adam(net.parameters(), lr=0.001)
+    optimizer = optim.SGD(net.parameters(), lr=0.1, momentum=0.9)
+    exp_lr_scheduler = lr_scheduler.StepLR(optimizer, step_size=1, gamma=0.1)
     criterion = nn.CrossEntropyLoss()
+    
     for epoch in range(1):
 
         for data in trainloader:
@@ -128,8 +138,11 @@ if __name__ == '__main__':
             running_loss += loss.data
             if i % log_period == 0:
                 print('Iteration: ', i * 2, '\tAverage Loss: ', running_loss / log_period)
-                log.log('loss', i * 2, running_loss / log_period)
+                # log.log('loss', i * 2, running_loss / log_period)
                 running_loss = 0
             if i % test_period == 0:
-                log.log('F1', i * 2, test_DF(i*2))
+                # log.log('F1', i * 2, test_DF(i*2))
+                test_DF(i*2)
+                net.train()
+                exp_lr_scheduler.step()
             i += 1

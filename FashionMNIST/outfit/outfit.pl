@@ -52,7 +52,6 @@ formal(Pieces,1) :- \+formal(Pieces,0).
 % goodForWarm(Pieces,0).
 % goodForWarm(Pieces,0) :- \+ (memberchk(0,Pieces), memberchk(5,Pieces)).
 
-
 % Whether the pieces int the given wardrobe make a full outfit.
 fullOutfit(Pieces,1) :- hasTop(Pieces), hasBottoms(Pieces).
 fullOutfit(Pieces,0) :- \+fullOutfit(Pieces,1).
