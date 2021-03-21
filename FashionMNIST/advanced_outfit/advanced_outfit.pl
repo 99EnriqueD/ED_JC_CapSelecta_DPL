@@ -28,8 +28,17 @@ formal(Pieces,1) :- \+formal(Pieces,0).
 fullOutfit(Pieces,1) :- hasTop(Pieces), hasBottoms(Pieces).
 fullOutfit(Pieces,0) :- \+fullOutfit(Pieces,1).
 
-hasTop(Pieces) :-  memberchk(X,Pieces), memberchk(X,[0,1,6]).
-hasBottoms(Pieces) :- memberchk(X,Pieces), memberchk(X,[2,3,4,5]).
+%hasTop(Pieces) :-  member(X,Pieces), member(X,[0,1,6]).
+%hasBottoms(Pieces) :- member(X,Pieces), member(X,[2,3,4,5]).
+
+hasTop(Pieces) :- memberchk(0,Pieces). 
+hasTop(Pieces) :- memberchk(1,Pieces).
+hasTop(Pieces) :- memberchk(6,Pieces).
+hasBottoms(Pieces) :- memberchk(2,Pieces).
+hasBottoms(Pieces) :- memberchk(3,Pieces).
+hasBottoms(Pieces) :- memberchk(4,Pieces).
+hasBottoms(Pieces) :- memberchk(5,Pieces).
+
 
 appropriateWardrobe(I1, I2, Rain, Formal, Full) :- 
     category(I1,C1),
