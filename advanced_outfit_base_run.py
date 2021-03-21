@@ -10,6 +10,8 @@ from torch.autograd import Variable
 from logger import Logger
 import numpy as np
 from FashionMNIST.advanced_outfit.advanced_outfit_baseline.FashionDatasetClass import FashionTrainDataset,FashionTestDataset
+from graphs.graphs import save_data, clear_file, save_cm
+
 
 class Advanced_outfit(Dataset):
         
@@ -33,6 +35,8 @@ if __name__ == '__main__':
 
     # Wardrobe specific parameters:
     num_ftrs_wardrobe = 8
+    clear_file("advanced_outfit_baseline_F1.txt")
+    clear_file("advanced_outfit_baseline_acc.txt")
 
     ####
     
@@ -50,8 +54,8 @@ if __name__ == '__main__':
     model_conv = torchvision.models.resnet18(pretrained=True)
 
     # Freeze feature extraction weights to speed up training (these parameters will not be changed during back propagation)
-    for param in model_conv.parameters():
-        param.requires_grad = False
+    # for param in model_conv.parameters():
+    #     param.requires_grad = False
 
 
     # Parameters of newly constructed modules have requires_grad=True by default
@@ -67,7 +71,7 @@ if __name__ == '__main__':
 
 
     # Confusion matrix
-    def test_DF():
+    def test_DF(iteration):
         confusion = np.zeros((num_ftrs_wardrobe, num_ftrs_wardrobe), dtype=np.uint32)  # First index actual, second index predicted
         correct = 0
         n = 0
@@ -84,6 +88,7 @@ if __name__ == '__main__':
             n += 1
         acc = correct / n
         print(confusion)
+        save_cm(confusion,"advanced_outfit_baseline_cm.txt")
         F1 = 0
         for nr in range(num_ftrs_wardrobe):
             TP = confusion[nr, nr]
@@ -92,6 +97,8 @@ if __name__ == '__main__':
             F1 += 2 * TP / (2 * TP + FP + FN) * (FN + TP) / N
         print('F1: ', F1)
         print('Accuracy: ', acc)
+        save_data(iteration,F1,"advanced_outfit_baseline_F1.txt")
+        save_data(iteration,acc,"advanced_outfit_baseline_acc.txt")
         return F1
 
 
@@ -124,5 +131,5 @@ if __name__ == '__main__':
                 log.log('loss', i * 2, running_loss / log_period)
                 running_loss = 0
             if i % test_period == 0:
-                log.log('F1', i * 2, test_DF())
+                log.log('F1', i * 2, test_DF(i*2))
             i += 1

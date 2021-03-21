@@ -19,8 +19,6 @@ from optimizer import Optimizer
 from network import Network
 from graphs.graphs import save_data, clear_file, save_cm
 
-
-
 #### NET
 
 # Wardrobe specific parameters:
@@ -30,8 +28,8 @@ nr_output = 3
 model_conv = torchvision.models.resnet18(pretrained=True)
 
 # Freeze feature extraction weights to speed up training (these parameters will not be changed during back propagation)
-for param in model_conv.parameters():
-    param.requires_grad = False
+# for param in model_conv.parameters():
+#     param.requires_grad = False
 
 # Parameters of newly constructed modules have requires_grad=True by default
 num_ftrs_resnet = model_conv.fc.in_features
@@ -54,7 +52,6 @@ def labelVector(bits) :
     return 1*int(bits[2]) + 2*int(bits[1]) + 4*int(bits[0])
 
 def test(model,iteration):
-    
     n=0
     correct = 0
     N = len(test_queries)
