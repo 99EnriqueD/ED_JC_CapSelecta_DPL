@@ -41,10 +41,10 @@ def hasPieceInSet(pieces, setToCheck) :
             return True
     return False
 
-def labelVector(bits) :
-    # This will 
-    #return 1* bits[3] + 2*bits[2] + 4*bits[1] + 8*bits[0]
-    return 4*bits[0] + 2*bits[1] + 1*bits[2]
+# def labelVector(bits) :
+#     # This will 
+#     #return 1* bits[3] + 2*bits[2] + 4*bits[1] + 8*bits[0]
+#     return 4*bits[0] + 2*bits[1] + 1*bits[2]
 
 def next_example(dataset, i):
     x,y = next(i), next(i)

@@ -24,6 +24,7 @@ from graphs.graphs import save_data, clear_file, save_cm
 # Wardrobe specific parameters:
 num_ftrs_wardrobe = 7
 nr_output = 3
+num_outputs_cm = 8
 
 model_conv = torchvision.models.resnet18(pretrained=True)
 
@@ -55,7 +56,7 @@ def test(model,iteration):
     n=0
     correct = 0
     N = len(test_queries)
-    confusion = np.zeros((num_ftrs_wardrobe, num_ftrs_wardrobe), dtype=np.uint32)  # First index actual, second index predicted
+    confusion = np.zeros((num_outputs_cm, num_outputs_cm), dtype=np.uint32)  # First index actual, second index predicted
     
     for d in test_queries:
         args = list(d.args)
@@ -72,7 +73,7 @@ def test(model,iteration):
     save_cm(confusion,"advanced_outfit_cm.txt")
     print(confusion)
     F1 = 0
-    for nr in range(num_ftrs_wardrobe):
+    for nr in range(num_outputs_cm):
             TP = confusion[nr, nr]
             FP = sum(confusion[:, nr]) - TP
             FN = sum(confusion[nr, :]) - TP
