@@ -37,12 +37,13 @@ if __name__ == '__main__':
     num_classes = 17
 
     labelMap = {0:20,1:30,2:35,3:40,4:45,5:50,6:55,7:60,8:65,9:70,10:75,11:80,12:85,13:90,14:100,15:110,16:120}
-
+    
     def test_F_MNIST(iteration):
         confusion = np.zeros((num_classes, num_classes), dtype=np.uint32)  # First index actual, second index predicted
         correct = 0
-        n = 0
+        N = len(test_dataset)
         total_distance = 0
+        n = 0
         for d, l in test_dataset:
             d = d.to(device)
             d = Variable(d.unsqueeze(0))
@@ -52,12 +53,14 @@ if __name__ == '__main__':
             confusion[l, c] += 1
             if c == l:
                 correct += 1
-            n += 1
+            else :
+                n += 1
+            # n += 1
             total_distance += abs(labelMap[c] - labelMap[l])
-        acc = correct / n
+        acc = correct / N
         print(confusion)
         save_cm(confusion,"budget_baseline_cm.txt")
-
+        
         average_distance = total_distance / n
 
         F1 = 0

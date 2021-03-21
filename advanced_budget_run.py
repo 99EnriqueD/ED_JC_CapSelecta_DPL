@@ -10,13 +10,13 @@ import numpy as np
 from graphs.graphs import save_data, clear_file, save_cm
 
 
-rel_path = 'FashionMNIST/budget/'
+rel_path = 'FashionMNIST/advanced_budget/'
 
-pl_file_path = rel_path + 'budget.pl'
+pl_file_path = rel_path + 'advanced_budget.pl'
 
-clear_file("budget_acc.txt")
-clear_file("budget_F1.txt")
-clear_file("budget_dist.txt")
+clear_file("advanced_budget_acc.txt")
+clear_file("advanced_budget_F1.txt")
+clear_file("advanced_budget_dist.txt")
 
 nr_output = 1
 num_classes = 17
@@ -43,7 +43,7 @@ def test(model,iteration):
         c = labelMap[list(out.args)[-1]]
         confusion[l, c] += 1
         total_distance += abs(l-c)
-    save_cm(confusion,"budget_cm.txt")
+    save_cm(confusion,"advanced_budget_cm.txt")
     print(confusion)
     F1 = 0
     for nr in range(num_classes):
@@ -56,13 +56,13 @@ def test(model,iteration):
     avg_distance = total_distance / N
     print("Acc : " + str(acc))
 
-    save_data(iteration,avg_distance,"budget_dist.txt")
-    save_data(iteration,acc,"budget_acc.txt")
-    save_data(iteration,F1,"budget_F1.txt")
+    save_data(iteration,avg_distance,"advanced_budget_dist.txt")
+    save_data(iteration,acc,"advanced_budget_acc.txt")
+    save_data(iteration,F1,"advanced_budget_F1.txt")
     return 
 
-train_queries = load(rel_path + 'train_fashion_data.txt')
-test_queries = load(rel_path + 'test_fashion_data.txt')
+train_queries = load('FashionMNIST/budget/train_fashion_data.txt')
+test_queries = load('FashionMNIST/budget/test_fashion_data.txt')
 
 with open(pl_file_path) as f:
     problog_string = f.read()

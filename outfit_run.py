@@ -15,6 +15,7 @@ pl_file_path = rel_path + 'outfit.pl'
 
 clear_file("outfit_acc.txt")
 clear_file("outfit_F1.txt")
+clear_file("outfit_dist.txt")
 
 nr_output = 3
 num_classes = 8
@@ -22,13 +23,23 @@ num_classes = 8
 def labelVector(bits) :
     return 1*int(bits[2]) + 2*int(bits[1]) + 4*int(bits[0])
 
+labelMap={0:[0,0,0], 1:[0,0,1],2:[0,1,0],3:[0,1,1],4:[1,0,0],5:[1,0,1],6:[1,1,0],7:[1,1,1]}
+
+def hamming_dist(l, c) :
+    bl = labelMap[l]
+    bc = labelMap[c]
+    distance = 0
+    for index in range(len(bl)):
+        distance += abs(bc[index] - bl[index])
+    return distance
+
 def test(model,iteration):
     
-    n=0
+    total_distance = 0
     correct = 0
     N = len(test_queries)
     confusion = np.zeros((num_classes, num_classes), dtype=np.uint32)  # First index actual, second index predicted
-    
+    n = 0
     for d in test_queries:
         args = list(d.args)
         label = args[-nr_output:]
@@ -38,8 +49,12 @@ def test(model,iteration):
         out = max(out, key=lambda x: out[x][0])
         if out == d:
             correct += 1
-        confusion[labelVector(label), labelVector(list(out.args)[-nr_output:])] += 1
-        n+=1
+        else :
+            n+= 0
+        l = labelVector(label)
+        c = labelVector(list(out.args)[-nr_output:])
+        confusion[l, c] += 1
+        total_distance += hamming_dist(labelMap[l], labelMap[c])
 
     save_cm(confusion,"outfit_cm.txt")
     print(confusion)
@@ -52,6 +67,10 @@ def test(model,iteration):
 
     acc = correct / N
     print("Acc : " + str(acc))
+
+    avg_distance = total_distance / n
+
+    save_data(iteration,avg_distance,"outfit_dist.txt")
     save_data(iteration,acc,"outfit_acc.txt")
     save_data(iteration,F1,"outfit_F1.txt")
     return 

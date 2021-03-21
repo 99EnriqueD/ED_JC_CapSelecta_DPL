@@ -51,7 +51,7 @@ def make_plot(dpl_data_file,baseline_data_file,label_base,label_dpl,x_axis_name,
         plt.clf()
         return
 
-make_plot("outfit_acc.txt","outfit_baseline_acc.txt","Baseline outfit classifier","DeepProbLog outfit classifier","iterations","accuracy","outfit accuracy")
-make_plot("outfit_F1.txt","outfit_baseline_F1.txt","Baseline outfit classifier","DeepProbLog outfit classifier","iterations","F1- score","outfit F1- score")
-make_plot("budget_acc.txt","budget_baseline_acc.txt","Baseline budget classifier","DeepProbLog budget classifier","iterations","accuracy","budget accuracy")
-make_plot("budget_F1.txt","budget_baseline_F1.txt","Baseline budget classifier","DeepProbLog budget classifier","iterations","F1- score","budget F1- score")
+# make_plot("outfit_acc.txt","outfit_baseline_acc.txt","Baseline outfit classifier","DeepProbLog outfit classifier","iterations","accuracy","outfit accuracy")
+# make_plot("outfit_F1.txt","outfit_baseline_F1.txt","Baseline outfit classifier","DeepProbLog outfit classifier","iterations","F1- score","outfit F1- score")
+# make_plot("budget_acc.txt","budget_baseline_acc.txt","Baseline budget classifier","DeepProbLog budget classifier","iterations","accuracy","budget accuracy")
+# make_plot("budget_F1.txt","budget_baseline_F1.txt","Baseline budget classifier","DeepProbLog budget classifier","iterations","F1- score","budget F1- score")
