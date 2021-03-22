@@ -29,7 +29,7 @@ def test(model,iteration):
     correct = 0
     N = len(test_queries)
     confusion = np.zeros((num_classes, num_classes), dtype=np.uint32)  # First index actual, second index predicted
-    
+    n = 0
     for d in test_queries:
         args = list(d.args)
         label = args[-1]
@@ -39,10 +39,12 @@ def test(model,iteration):
         out = max(out, key=lambda x: out[x][0])
         if out == d:
             correct += 1
+        else :
+            n += 1
         l = labelMap[label]
         c = labelMap[list(out.args)[-1]]
         confusion[l, c] += 1
-        total_distance += abs(l-c)
+        total_distance += abs(int(label)-int(list(out.args)[-1]))
     save_cm(confusion,"budget_cm.txt")
     print(confusion)
     F1 = 0
@@ -53,7 +55,7 @@ def test(model,iteration):
             F1 += 2 * TP / (2 * TP + FP + FN) * (FN + TP) / N
 
     acc = correct / N
-    avg_distance = total_distance / N
+    avg_distance = total_distance / n
     print("Acc : " + str(acc))
 
     save_data(iteration,avg_distance,"budget_dist.txt")

@@ -55,7 +55,6 @@ if __name__ == '__main__':
                 correct += 1
             else :
                 n += 1
-            # n += 1
             total_distance += abs(labelMap[c] - labelMap[l])
         acc = correct / N
         print(confusion)
