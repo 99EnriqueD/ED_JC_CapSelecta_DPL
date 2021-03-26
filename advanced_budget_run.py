@@ -3,7 +3,7 @@ from data_loader import load
 from model import Model
 from optimizer import Optimizer
 from network import Network
-from FashionMNIST.fashionCNN import Fashion_MNIST_CNN, neural_predicate, test_Fashion_MNIST
+from FashionMNIST.advanced_budget.advanced_budget_net import Advanced_budget_net,test_advanced_budget,neural_predicate 
 import torch
 from problog.logic import Var
 import numpy as np
@@ -61,15 +61,15 @@ def test(model,iteration):
     save_data(iteration,F1,"advanced_budget_F1.txt")
     return 
 
-train_queries = load('FashionMNIST/budget/train_fashion_data.txt')
-test_queries = load('FashionMNIST/budget/test_fashion_data.txt')
+train_queries = load('FashionMNIST/advanced_budget/train_advanced_data.txt')
+test_queries = load('FashionMNIST/advanced_budget/test_advanced_data.txt')
 
 with open(pl_file_path) as f:
     problog_string = f.read()
     
 # Might need to make multiple nets and add them all to model
-network = Fashion_MNIST_CNN()
-net = Network(network,'fashion_mnist_net', neural_predicate)
+network = Advanced_budget_net()
+net = Network(network,'advanced_budget_net', neural_predicate)
 
 
 net.optimizer = torch.optim.Adam(network.parameters(), lr=0.001)

@@ -1,5 +1,4 @@
-nn(fashion_mnist_net,[X], O, [0,1,2,3,4]) :: category(X,O).
-
+nn(advanced_budget_net,[X], O, [0,1,2,3,4]) :: category(X,O).
 
 %%%%%%%%%%%%%%%% FashionMNIST
 % Shoes : [5,7,9]
@@ -7,11 +6,11 @@ nn(fashion_mnist_net,[X], O, [0,1,2,3,4]) :: category(X,O).
 % Overtop : [2,4]
 % Bag : [8]
 % Pants : [1]
-t(0.333) :: price(5,40); t(0.333) :: price(7,30); t(0.333) :: price(9,20).
-t(0.5) :: price(0,10); t(0.5) :: price(6,20).
-t(0.5) :: price(2,20); t(0.5) :: price(4,50).
-price(8,60).
-price(1,25).
+t(0.333) :: price(0,40); t(0.333) :: price(0,30); t(0.333) :: price(0,20).
+t(0.5) :: price(1,10); t(0.5) :: price(1,2).
+t(0.5) :: price(2,20); t(0.5) :: price(2,50).
+price(3,60).
+price(4,25).
 
 %%%%%%%%%%%%%%%% DF
 % % Shirt (tank vs general vs button down)
