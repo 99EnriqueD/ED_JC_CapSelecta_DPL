@@ -105,7 +105,7 @@ if __name__ == '__main__':
     running_loss = 0.0
     log = Logger()
 
-    for epoch in range(1):
+    for epoch in range(3):
 
         for data in trainloader:
             inputs, labels = data

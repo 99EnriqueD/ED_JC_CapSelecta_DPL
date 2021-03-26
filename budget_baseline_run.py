@@ -102,7 +102,7 @@ if __name__ == '__main__':
     running_loss = 0.0
     log = Logger()
 
-    for epoch in range(1):
+    for epoch in range(3):
 
         for data in trainloader:
             inputs, labels = data
@@ -122,7 +122,9 @@ if __name__ == '__main__':
                 log.log('loss', i * 2, running_loss / log_period)
                 running_loss = 0
             if i % test_period == 0:
+                net.eval()
                 log.log('F1', i * 2, test_F_MNIST(i * 2))
+                net.train()
             i += 1
 
     log.write_to_file('graphs/budget_baseline')

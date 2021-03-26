@@ -81,4 +81,4 @@ optimizer = Optimizer(model,2)
 # logger = train_model(model,train_queries,1,optimizer, test_iter=1000,test=lambda x: x.accuracy(test_queries, test=True), snapshot_iter=10000)
 # logger.write_to_file('graphs/budget')
 
-train_model2(model,train_queries,1,optimizer,test_iter=1000,test=test,snapshot_iter=10000)
+train_model2(model,train_queries,3,optimizer,test_iter=1000,test=test,snapshot_iter=10000)
