@@ -60,5 +60,5 @@ image, label = test_set[1867]
 plt.imshow(image.squeeze(), cmap="gray")
 print(label)
 
-gather_examples('train', 'train_advanced_data.txt')
-gather_examples('test', 'test_advanced_data.txt')
+gather_examples('train', 'FashionMNIST/advanced_budget/train_advanced_data.txt')
+gather_examples('test', 'FashionMNIST/advanced_budget/test_advanced_data.txt')

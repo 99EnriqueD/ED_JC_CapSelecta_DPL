@@ -39,13 +39,13 @@ if __name__ == '__main__':
 
     ####
     
-    # Load the dataset
+   # Load the dataset
     transform = transforms.Compose([
-            #transforms.RandomResizedCrop(224),
-            transforms.ToTensor(),
-            transforms.RandomResizedCrop(224),
-            transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
-        ])
+        transforms.Resize(300),
+        transforms.ToTensor(),
+        # transforms.RandomResizedCrop(224),
+        transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+    ])
     train_dataset = Advanced_outfit(FashionTrainDataset(transform= transform),"FashionMNIST/advanced_outfit/advanced_outfit_baseline/train_advanced_outfit_base_data.txt")
     test_dataset = Advanced_outfit(FashionTestDataset(transform= transform),"FashionMNIST/advanced_outfit/advanced_outfit_baseline/test_advanced_outfit_base_data.txt" )
     trainloader = torch.utils.data.DataLoader(train_dataset, batch_size=1, shuffle=True, num_workers=1)
@@ -82,7 +82,6 @@ if __name__ == '__main__':
         correct = 0
         n = 0
         N = len(test_dataset)
-        net.eval()
         for d, l in test_dataset:
             d = d.to(device)
             d = Variable(d.unsqueeze(0))
@@ -93,6 +92,7 @@ if __name__ == '__main__':
             if c == l:
                 correct += 1
             n += 1
+            # TODO add distance
         acc = correct / n
         print(confusion)
         save_cm(confusion,"advanced_outfit_baseline_cm.txt")
@@ -116,12 +116,12 @@ if __name__ == '__main__':
     log_period = 50
     running_loss = 0.0
     # log = Logger()
-    # optimizer = optim.Adam(net.parameters(), lr=0.001)
-    optimizer = optim.SGD(net.parameters(), lr=0.1, momentum=0.9)
-    exp_lr_scheduler = lr_scheduler.StepLR(optimizer, step_size=1, gamma=0.1)
+    optimizer = optim.Adam(net.parameters(), lr=0.01)
+    # optimizer = optim.SGD(net.parameters(), lr=0.1, momentum=0.9)
+    # exp_lr_scheduler = lr_scheduler.StepLR(optimizer, step_size=1, gamma=0.1)
     criterion = nn.CrossEntropyLoss()
     
-    for epoch in range(1):
+    for epoch in range(3):
 
         for data in trainloader:
             inputs, labels = data
@@ -142,7 +142,8 @@ if __name__ == '__main__':
                 running_loss = 0
             if i % test_period == 0:
                 # log.log('F1', i * 2, test_DF(i*2))
+                net.train()
                 test_DF(i*2)
                 net.train()
-                exp_lr_scheduler.step()
+                # exp_lr_scheduler.step()
             i += 1

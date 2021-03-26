@@ -50,11 +50,11 @@ def test(model,iteration):
         if out == d:
             correct += 1
         else :
-            n+= 0
+            n += 1
         l = labelVector(label)
         c = labelVector(list(out.args)[-nr_output:])
         confusion[l, c] += 1
-        total_distance += hamming_dist(labelMap[l], labelMap[c])
+        total_distance += hamming_dist(l, c)
 
     save_cm(confusion,"outfit_cm.txt")
     print(confusion)
