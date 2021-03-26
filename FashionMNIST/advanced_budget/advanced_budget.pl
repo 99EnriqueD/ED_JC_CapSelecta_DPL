@@ -1,4 +1,4 @@
-nn(fashion_df_net,[X], O, [0,1,2,3,4]) :: category(X,O).
+nn(fashion_mnist_net,[X], O, [0,1,2,3,4]) :: category(X,O).
 
 
 %%%%%%%%%%%%%%%% FashionMNIST
