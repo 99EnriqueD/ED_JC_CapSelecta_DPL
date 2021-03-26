@@ -44,10 +44,9 @@ def neural_predicate(network, i):
     return output.squeeze(0)
 
 transform = transforms.Compose([
-        #transforms.RandomResizedCrop(224),
         transforms.ToTensor(),
-        transforms.RandomResizedCrop(224),
-        transforms.Normalize((0.5), (0.5))
+        transforms.Resize(300),
+        transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
     ])
 df_train_data = FashionTrainDataset(transform=transform)
 df_test_data = FashionTestDataset(transform=transform)

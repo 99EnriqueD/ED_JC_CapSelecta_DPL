@@ -36,14 +36,14 @@ if __name__ == '__main__':
     num_ftrs_wardrobe = 8
     clear_file("advanced_outfit_baseline_F1.txt")
     clear_file("advanced_outfit_baseline_acc.txt")
+    clear_file("advanced_outfit_baseline_dist.txt")
 
     ####
     
    # Load the dataset
     transform = transforms.Compose([
-        transforms.Resize(300),
         transforms.ToTensor(),
-        # transforms.RandomResizedCrop(224),
+        transforms.Resize(300),
         transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
     ])
     train_dataset = Advanced_outfit(FashionTrainDataset(transform= transform),"FashionMNIST/advanced_outfit/advanced_outfit_baseline/train_advanced_outfit_base_data.txt")
@@ -75,12 +75,22 @@ if __name__ == '__main__':
     net = model_conv.to(device)
 
     net.train()
+    labelMap={0:[0,0,0], 1:[0,0,1],2:[0,1,0],3:[0,1,1],4:[1,0,0],5:[1,0,1],6:[1,1,0],7:[1,1,1]}
+
+    def hamming_dist(l, c) :
+        bl = labelMap[l]
+        bc = labelMap[c]
+        distance = 0
+        for index in range(len(bl)):
+            distance += abs(bc[index] - bl[index])
+        return distance
 
     # Confusion matrix
     def test_DF(iteration):
         confusion = np.zeros((num_ftrs_wardrobe, num_ftrs_wardrobe), dtype=np.uint32)  # First index actual, second index predicted
         correct = 0
         n = 0
+        total_distance = 0
         N = len(test_dataset)
         for d, l in test_dataset:
             d = d.to(device)
@@ -91,9 +101,12 @@ if __name__ == '__main__':
             confusion[l, c] += 1
             if c == l:
                 correct += 1
-            n += 1
-            # TODO add distance
-        acc = correct / n
+            else:
+                n += 1
+            total_distance += hamming_dist(l, c)
+
+        acc = correct / N
+        average_distance = total_distance/ n 
         print(confusion)
         save_cm(confusion,"advanced_outfit_baseline_cm.txt")
         F1 = 0
@@ -104,6 +117,7 @@ if __name__ == '__main__':
             F1 += 2 * TP / (2 * TP + FP + FN) * (FN + TP) / N
         print('F1: ', F1)
         print('Accuracy: ', acc)
+        save_data(iteration,average_distance,"advanced_outfit_baseline_dist.txt")
         save_data(iteration,F1,"advanced_outfit_baseline_F1.txt")
         save_data(iteration,acc,"advanced_outfit_baseline_acc.txt")
         return F1
