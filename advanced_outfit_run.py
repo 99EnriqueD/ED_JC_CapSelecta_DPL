@@ -36,28 +36,44 @@ for param in model_conv.parameters():
 num_ftrs_resnet = model_conv.fc.in_features
 # model_conv.fc = nn.Linear(num_ftrs_resnet,num_ftrs_wardrobe)
 model_conv.fc = nn.Sequential(
-    nn.Linear(num_ftrs_resnet, num_ftrs_wardrobe),
-    nn.Softmax(1)
-)
-model_conv.eval()
+            nn.Linear(num_ftrs_resnet, 120),
+            nn.ReLU(),
+            nn.Linear(120, 84),
+            nn.ReLU(),
+            nn.Linear(84, num_ftrs_wardrobe),
+            nn.Softmax(1)
+            )
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 print(device)
 netwrk = model_conv.to(device)
+netwrk.train()
 
-
+clear_file("advanced_outfit_dist.txt")
 clear_file("advanced_outfit_acc.txt")
 clear_file("advanced_outfit_F1.txt")
 
 def labelVector(bits) :
     return 1*int(bits[2]) + 2*int(bits[1]) + 4*int(bits[0])
 
+
+labelMap={0:[0,0,0], 1:[0,0,1],2:[0,1,0],3:[0,1,1],4:[1,0,0],5:[1,0,1],6:[1,1,0],7:[1,1,1]}
+
+def hamming_dist(l, c) :
+    bl = labelMap[l]
+    bc = labelMap[c]
+    distance = 0
+    for index in range(len(bl)):
+        distance += abs(bc[index] - bl[index])
+    return distance
+
 def test(model,iteration):
     n=0
     correct = 0
     N = len(test_queries)
     confusion = np.zeros((num_outputs_cm, num_outputs_cm), dtype=np.uint32)  # First index actual, second index predicted
-    
+    netwrk.eval()
+    total_distance=0
     for d in test_queries:
         args = list(d.args)
         label = args[-nr_output:]
@@ -67,8 +83,12 @@ def test(model,iteration):
         out = max(out, key=lambda x: out[x][0])
         if out == d:
             correct += 1
-        confusion[labelVector(label), labelVector(list(out.args)[-nr_output:])] += 1
-        n+=1
+        else:
+            n+=1
+        l = labelVector(label)
+        c = labelVector(list(out.args)[-nr_output:])
+        confusion[l, c] += 1
+        total_distance += hamming_dist(l, c)
 
     save_cm(confusion,"advanced_outfit_cm.txt")
     print(confusion)
@@ -81,8 +101,12 @@ def test(model,iteration):
 
     acc = correct / N
     print("Acc : " + str(acc))
+    avg_distance = total_distance / n
+    save_data(iteration,avg_distance,"advanced_outfit_dist.txt")
     save_data(iteration,acc,"advanced_outfit_acc.txt")
     save_data(iteration,F1,"advanced_outfit_F1.txt")
+    
+    netwrk.train()
     return 
 
 
@@ -102,9 +126,9 @@ with open(pl_file_path) as f:
 # Might need to make multiple nets and add them all to model
 net = Network(netwrk,'fashion_df_net', neural_predicate)
 
-net.optimizer = torch.optim.Adam(netwrk.parameters(), lr=0.001)
+net.optimizer = torch.optim.Adam(netwrk.fc.parameters(), lr=0.01)
 model = Model(problog_string,[net],caching=False)
 optimizer = Optimizer(model,2)
 
 # train_model(model,train_queries,1,optimizer, test_iter=1000,test=lambda x: x.accuracy(test_queries, test=True), snapshot_iter=10000)
-train_model2(model,train_queries,1,optimizer,test_iter=1000,test=test,snapshot_iter=10000)
+train_model2(model,train_queries,3,optimizer,test_iter=1000,test=test,snapshot_iter=10000)
