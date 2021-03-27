@@ -26,28 +26,29 @@ num_ftrs_wardrobe = 7
 nr_output = 3
 num_outputs_cm = 8
 
-model_conv = torchvision.models.resnet18(pretrained=True)
+net = torchvision.models.resnet50(pretrained=True)
 
 # Freeze feature extraction weights to speed up training (these parameters will not be changed during back propagation)
-for param in model_conv.parameters():
+for param in net.parameters():
     param.requires_grad = False
 
 # Parameters of newly constructed modules have requires_grad=True by default
-num_ftrs_resnet = model_conv.fc.in_features
-# model_conv.fc = nn.Linear(num_ftrs_resnet,num_ftrs_wardrobe)
-model_conv.fc = nn.Sequential(
-            nn.Linear(num_ftrs_resnet, 120),
-            nn.ReLU(),
-            nn.Linear(120, 84),
-            nn.ReLU(),
-            nn.Linear(84, num_ftrs_wardrobe),
-            nn.Softmax(1)
-            )
+num_ftrs_resnet = net.fc.in_features
+net.fc = nn.Linear(num_ftrs_resnet,num_ftrs_wardrobe)
+# net.fc = nn.Sequential(
+#             nn.Linear(num_ftrs_resnet, 120),
+#             nn.ReLU(),
+#             nn.Linear(120, 84),
+#             nn.ReLU(),
+#             nn.Linear(84, num_ftrs_wardrobe),
+#             nn.Softmax(1)
+#             )
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 print(device)
-netwrk = model_conv.to(device)
-netwrk.train()
+net.to(device)
+
+net.eval()
 
 clear_file("advanced_outfit_dist.txt")
 clear_file("advanced_outfit_acc.txt")
@@ -72,7 +73,6 @@ def test(model,iteration):
     correct = 0
     N = len(test_queries)
     confusion = np.zeros((num_outputs_cm, num_outputs_cm), dtype=np.uint32)  # First index actual, second index predicted
-    netwrk.eval()
     total_distance=0
     for d in test_queries:
         args = list(d.args)
@@ -122,12 +122,12 @@ test_queries = load(rel_path + 'test_advanced_outfit_data.txt')
 
 with open(pl_file_path) as f:
     problog_string = f.read()
-    
-# Might need to make multiple nets and add them all to model
-net = Network(netwrk,'fashion_df_net', neural_predicate)
 
-net.optimizer = torch.optim.Adam(netwrk.fc.parameters(), lr=0.01)
-model = Model(problog_string,[net],caching=False)
+net.optimizer = torch.optim.Adam(net.fc.parameters(), lr=0.001)   
+# Might need to make multiple nets and add them all to model
+netwrk = Network(net,'fashion_df_net', neural_predicate)
+
+model = Model(problog_string,[netwrk],caching=False)
 optimizer = Optimizer(model,2)
 
 # train_model(model,train_queries,1,optimizer, test_iter=1000,test=lambda x: x.accuracy(test_queries, test=True), snapshot_iter=10000)

@@ -142,7 +142,7 @@ if __name__ == '__main__':
     log_period = 50
     running_loss = 0.0
     # log = Logger()
-    optimizer = optim.Adam(net.fc.parameters(), lr=0.0001)
+    optimizer = optim.Adam(net.fc.parameters(), lr=0.001)
     # optimizer = optim.SGD(net.parameters(), lr=0.1, momentum=0.9)
     # exp_lr_scheduler = lr_scheduler.StepLR(optimizer, step_size=1, gamma=0.1)
     criterion = nn.CrossEntropyLoss()
