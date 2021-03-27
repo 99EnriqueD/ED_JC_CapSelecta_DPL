@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+import numpy as np
 
 rel_path = "graphs/"
 
@@ -73,13 +74,19 @@ def calc_diff(dpl_data_file,baseline_data_file):
                         iterations_base.append(int(splitted[0]))
                         to_plot_base.append(float(splitted[1]))
         
-        return iterations_base, (to_plot_dpl-to_plot_base)
+        return iterations_base, np.subtract(to_plot_dpl,to_plot_base)
 
-def make_diff_plot(dpl_data_file1,baseline_data_file1,dpl_data_file2,base_data_file2):
+def make_diff_plot(dpl_data_file1,baseline_data_file1,dpl_data_file2,baseline_data_file2):
         amount_iterations1, diff1= calc_diff(dpl_data_file1,baseline_data_file1)
         amount_iterations2, diff2= calc_diff(dpl_data_file2,baseline_data_file2)
-        print(diff1)
-        print(diff2)
+        plt.plot(amount_iterations1,diff1,label="outfit F1-difference")
+        plt.plot(amount_iterations2,diff2,label="budget F1-difference")
+        plt.xlabel("iterations")
+        plt.ylabel("F1- score difference")
+        plt.legend(loc='best')
+        plt.title("difference in F1")
+        plt.savefig(rel_path +"difference_plot")
+        plt.clf()
         return
 
 #make_plot("outfit_acc.txt","outfit_baseline_acc.txt","Baseline outfit classifier","DeepProbLog outfit classifier","iterations","accuracy","outfit accuracy")
@@ -87,4 +94,4 @@ def make_diff_plot(dpl_data_file1,baseline_data_file1,dpl_data_file2,base_data_f
 #make_plot("budget_acc.txt","budget_baseline_acc.txt","Baseline budget classifier","DeepProbLog budget classifier","iterations","accuracy","budget accuracy")
 #make_plot("budget_F1.txt","budget_baseline_F1.txt","Baseline budget classifier","DeepProbLog budget classifier","iterations","F1- score","budget F1- score")
 #make_plot("outfit_dist.txt","outfit_baseline_dist.txt","Baseline budget classifier","DeepProbLog budget classifier","iterations","distance","budget distance function")
-make_diff_plot("outfit_F1.txt","outfit_baseline_F1.txt","budget_F1.txt","budget_baseline_F1.txt")
+#make_diff_plot("outfit_F1.txt","outfit_baseline_F1.txt","budget_F1.txt","budget_baseline_F1.txt")
