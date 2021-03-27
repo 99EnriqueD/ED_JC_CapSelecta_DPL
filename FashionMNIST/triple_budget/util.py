@@ -9,7 +9,7 @@ output = {}
 sorted_sums = sorted(sums)
 i =0
 for s in sorted_sums:
-    output[s] = i
+    output[i] = s
     i+= 1
 print(output)
 

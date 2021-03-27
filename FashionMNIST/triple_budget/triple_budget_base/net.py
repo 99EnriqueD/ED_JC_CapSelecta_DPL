@@ -11,7 +11,7 @@ import numpy as np
 
 class TB_Net(nn.Module):
     def __init__(self):
-        super(Net, self).__init__()
+        super(TB_Net, self).__init__()
         self.encoder = nn.Sequential(
             nn.Conv2d(1, 6, 5),
             nn.MaxPool2d(2, 2),  # 6 24 24 -> 6 12 12
@@ -21,17 +21,17 @@ class TB_Net(nn.Module):
             nn.ReLU(True)
         )
         self.classifier = nn.Sequential(
-            nn.Linear(2304, 120),
+            nn.Linear(1152, 120),
             nn.ReLU(),
             nn.Linear(120, 84),
             nn.ReLU(),
             nn.Linear(84, 27),
-            nn.Softmax(1)
+            nn.LogSoftmax(1)
         )
 
     def forward(self, x):
         x = self.encoder(x)
-        x = x.view(-1, 2304)
+        x = x.view(-1, 1152)
         x = self.classifier(x)
         return x
 

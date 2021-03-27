@@ -87,4 +87,4 @@ def make_diff_plot(dpl_data_file1,baseline_data_file1,dpl_data_file2,base_data_f
 #make_plot("budget_acc.txt","budget_baseline_acc.txt","Baseline budget classifier","DeepProbLog budget classifier","iterations","accuracy","budget accuracy")
 #make_plot("budget_F1.txt","budget_baseline_F1.txt","Baseline budget classifier","DeepProbLog budget classifier","iterations","F1- score","budget F1- score")
 #make_plot("outfit_dist.txt","outfit_baseline_dist.txt","Baseline budget classifier","DeepProbLog budget classifier","iterations","distance","budget distance function")
-make_diff_plot("outfit_F1.txt","outfit_baseline_F1.txt","budget_F1.txt","budget_baseline_F1.txt")
+#make_diff_plot("outfit_F1.txt","outfit_baseline_F1.txt","budget_F1.txt","budget_baseline_F1.txt")
