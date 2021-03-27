@@ -1,4 +1,3 @@
-
 import torch
 from torch import from_numpy
 import torchvision
@@ -29,14 +28,14 @@ class Advanced_outfit(Dataset):
         def __getitem__(self, index):
             i1, i2, l = self.data[index]
             # return self.dataset[i1],
-            print("IN GET ITEM")
-            print("SHAPE 1 : ", len(self.dataset[i1]))
-            print("SHAPE 1[0]", self.dataset[i1][0].size(), " -- ", self.dataset[i1][0])
-            print("SHAPE 1[1]", self.dataset[i1][1])
-            print("SHAPE 2 : ", len(self.dataset[i2]))
-            print("SHAPE 2[0]", self.dataset[i2][0].size(), " -- ", self.dataset[i2][0])
-            print("SHAPE 2[1]", self.dataset[i2][1])
-            print("LABEL : ", l)
+            # print("IN GET ITEM")
+            # print("SHAPE 1 : ", len(self.dataset[i1]))
+            # print("SHAPE 1[0]", self.dataset[i1][0].size(), " -- ", self.dataset[i1][0])
+            # print("SHAPE 1[1]", self.dataset[i1][1])
+            # print("SHAPE 2 : ", len(self.dataset[i2]))
+            # print("SHAPE 2[0]", self.dataset[i2][0].size(), " -- ", self.dataset[i2][0])
+            # print("SHAPE 2[1]", self.dataset[i2][1])
+            # print("LABEL : ", l)
 
             return torch.cat((self.dataset[i1][0],self.dataset[i2][0]), 1), l
 
@@ -55,25 +54,25 @@ if __name__ == '__main__':
     transform = transforms.Compose([
         transforms.ToTensor(),
         transforms.Resize((250,250)),
-        # transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+        transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
     ])
     train_dataset = Advanced_outfit(FashionTrainDataset(transform= transform),"FashionMNIST/advanced_outfit/advanced_outfit_baseline/train_advanced_outfit_base_data.txt")
     test_dataset = Advanced_outfit(FashionTestDataset(transform= transform),"FashionMNIST/advanced_outfit/advanced_outfit_baseline/test_advanced_outfit_base_data.txt" )
     trainloader = torch.utils.data.DataLoader(train_dataset, batch_size=1, shuffle=True, num_workers=1)
 
-    # model_conv = torchvision.models.resnet18(pretrained=False)
+    net = torchvision.models.resnet50(pretrained=True)
 
     # Freeze feature extraction weights to speed up training (these parameters will not be changed during back propagation)
-    # for param in model_conv.parameters():
-        # param.requires_grad = False
+    for param in net.parameters():
+        param.requires_grad = False
 
 
     # Parameters of newly constructed modules have requires_grad=True by default
-    # num_ftrs_resnet = model_conv.fc.in_features
-    # model_conv.fc = nn.Linear(num_ftrs_resnet, num_ftrs_wardrobe)
+    num_ftrs_resnet = net.fc.in_features
+    net.fc = nn.Linear(num_ftrs_resnet, num_ftrs_wardrobe)
     
-    model_conv = Fashion_DF_CNN()
-    # model_conv.fc = nn.Sequential(
+    # net = Fashion_DF_CNN()
+    # net.fc = nn.Sequential(
     #         nn.Linear(num_ftrs_resnet, 120),
     #         nn.ReLU(),
     #         nn.Linear(120, 84),
@@ -85,9 +84,9 @@ if __name__ == '__main__':
 
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     print(device)
-    net = model_conv.to(device)
+    net.to(device)
 
-    net.train()
+    net.eval()
     labelMap={0:[0,0,0], 1:[0,0,1],2:[0,1,0],3:[0,1,1],4:[1,0,0],5:[1,0,1],6:[1,1,0],7:[1,1,1]}
 
     def hamming_dist(l, c) :
@@ -143,7 +142,7 @@ if __name__ == '__main__':
     log_period = 50
     running_loss = 0.0
     # log = Logger()
-    optimizer = optim.Adam(net.parameters(), lr=0.01)
+    optimizer = optim.Adam(net.fc.parameters(), lr=0.0001)
     # optimizer = optim.SGD(net.parameters(), lr=0.1, momentum=0.9)
     # exp_lr_scheduler = lr_scheduler.StepLR(optimizer, step_size=1, gamma=0.1)
     criterion = nn.CrossEntropyLoss()
@@ -169,8 +168,8 @@ if __name__ == '__main__':
                 running_loss = 0
             if i % test_period == 0:
                 # log.log('F1', i * 2, test_DF(i*2))
-                net.train()
+                # net.eval()
                 test_DF(i*2)
-                net.train()
+                # net.train()
                 # exp_lr_scheduler.step()
             i += 1
