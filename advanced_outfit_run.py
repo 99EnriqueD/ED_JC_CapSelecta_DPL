@@ -34,21 +34,20 @@ for param in net.parameters():
 
 # Parameters of newly constructed modules have requires_grad=True by default
 num_ftrs_resnet = net.fc.in_features
-net.fc = nn.Linear(num_ftrs_resnet,num_ftrs_wardrobe)
-# net.fc = nn.Sequential(
-#             nn.Linear(num_ftrs_resnet, 120),
-#             nn.ReLU(),
-#             nn.Linear(120, 84),
-#             nn.ReLU(),
-#             nn.Linear(84, num_ftrs_wardrobe),
-#             nn.Softmax(1)
-#             )
+# net.fc = nn.Linear(num_ftrs_resnet,num_ftrs_wardrobe)
+net.fc = nn.Sequential(
+            nn.Linear(num_ftrs_resnet, num_ftrs_wardrobe),
+            # nn.ReLU(),
+            # nn.Linear(120, 84),
+            # nn.ReLU(),
+            # nn.Linear(84, num_ftrs_wardrobe),
+            nn.Softmax(1)
+            )
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 print(device)
 net.to(device)
 
-net.eval()
 
 clear_file("advanced_outfit_dist.txt")
 clear_file("advanced_outfit_acc.txt")
@@ -69,6 +68,9 @@ def hamming_dist(l, c) :
     return distance
 
 def test(model,iteration):
+    net.eval()
+    for param in net.fc.parameters() :
+        param.requires_grad = False
     n=0
     correct = 0
     N = len(test_queries)
@@ -84,7 +86,7 @@ def test(model,iteration):
         if out == d:
             correct += 1
         else:
-            n+=1
+            n += 1
         l = labelVector(label)
         c = labelVector(list(out.args)[-nr_output:])
         confusion[l, c] += 1
@@ -106,7 +108,9 @@ def test(model,iteration):
     save_data(iteration,acc,"advanced_outfit_acc.txt")
     save_data(iteration,F1,"advanced_outfit_F1.txt")
     
-    netwrk.train()
+    for param in net.fc.parameters() :
+        param.requires_grad = True
+    net.train()
     return 
 
 
@@ -115,7 +119,6 @@ def test(model,iteration):
 rel_path = "FashionMNIST/advanced_outfit/"
 
 pl_file_path = rel_path + 'advanced_outfit.pl'
-
 
 train_queries = load(rel_path + 'train_advanced_outfit_data.txt')
 test_queries = load(rel_path + 'test_advanced_outfit_data.txt')
@@ -131,4 +134,4 @@ model = Model(problog_string,[netwrk],caching=False)
 optimizer = Optimizer(model,2)
 
 # train_model(model,train_queries,1,optimizer, test_iter=1000,test=lambda x: x.accuracy(test_queries, test=True), snapshot_iter=10000)
-train_model2(model,train_queries,3,optimizer,test_iter=1000,test=test,snapshot_iter=10000)
+train_model2(model,train_queries,3,optimizer,test_iter=5000,test=test,snapshot_iter=10000)

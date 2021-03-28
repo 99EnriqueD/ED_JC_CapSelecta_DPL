@@ -9,7 +9,6 @@ def count_backward(self, x, y):
     self.n += 1
 
 
-
 class Network(object):
     def __init__(self, net, name, function, optimizer=None, model=None):
         self.evaluated = dict()
@@ -89,7 +88,7 @@ class AD_Network(Network):
 
     def test_predicate(self, *inputs):
         output = self.function(self,*inputs)
-        _, predicted = torch.max(output.data, 0)
+        w, predicted = torch.max(output.data, 0)
         return self.output_domain[predicted]
 
     def register_external(self, _, test_model):

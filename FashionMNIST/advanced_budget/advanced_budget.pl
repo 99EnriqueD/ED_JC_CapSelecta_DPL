@@ -1,11 +1,11 @@
 nn(advanced_budget_net,[X], O, [0,1,2,3,4]) :: category(X,O).
 
 %%%%%%%%%%%%%%%% FashionMNIST
-% Shoes : [5,7,9]
-% Tops : [0,6]
-% Overtop : [2,4]
-% Bag : [8]
-% Pants : [1]
+% Shoes : [5,7,9] = 0
+% Tops : [0,6] = 1
+% Overtop : [2,4] = 2
+% Bag : [8] = 3
+% Pants : [1] = 4
 t(0.333) :: price(0,40); t(0.333) :: price(0,30); t(0.333) :: price(0,20).
 t(0.5) :: price(1,10); t(0.5) :: price(1,2).
 t(0.5) :: price(2,20); t(0.5) :: price(2,50).
