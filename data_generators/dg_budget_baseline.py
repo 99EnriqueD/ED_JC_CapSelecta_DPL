@@ -60,5 +60,5 @@ def gather_examples(dataset_name, filename):
 # plt.imshow(image.squeeze(), cmap="gray")
 # print(label)
 
-gather_examples('train', '../FashionMNIST/budget/budget_baseline/train_budget_base_data.txt')
-gather_examples('test', '../FashionMNIST/budget/budget_baseline/test_budget_base_data.txt')
+gather_examples('train', 'train_budget_base_data.txt')
+gather_examples('test', 'test_budget_base_data.txt')

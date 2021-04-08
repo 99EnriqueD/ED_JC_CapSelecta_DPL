@@ -63,8 +63,8 @@ def test(model,iteration):
     save_data(iteration,F1,"budget_F1.txt")
     return 
 
-train_queries = load(rel_path + 'train_fashion_data.txt')
-test_queries = load(rel_path + 'test_fashion_data.txt')
+train_queries = load(rel_path + 'train_budget_data.txt')
+test_queries = load(rel_path + 'test_budget_data.txt')
 
 with open(pl_file_path) as f:
     problog_string = f.read()
