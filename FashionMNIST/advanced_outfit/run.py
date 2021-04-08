@@ -40,7 +40,7 @@ network = model_conv.to(device)
 
 #### DPL
 
-pl_file_path = 'advanced_outfit.pl'
+pl_file_path = '../../pl_files/advanced_outfit.pl'
 
 
 train_queries = load('train_advanced_outfit_data.txt')

@@ -6,7 +6,7 @@ from network import Network
 from FashionMNIST.fashionCNN import Fashion_MNIST_CNN, neural_predicate, test_Fashion_MNIST
 import torch
 
-pl_file_path = 'outfit.pl'
+pl_file_path = '../../pl_files/outfit.pl'
 
 
 train_queries = load('train_outfit_data.txt')
