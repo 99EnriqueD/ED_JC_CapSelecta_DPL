@@ -10,7 +10,7 @@ import numpy as np
 from metrics.metric_recording import save_data, clear_file, save_cm
 
 
-rel_path = '../FashionMNIST/triple_budget/'
+rel_path = 'FashionMNIST/triple_budget/'
 
 pl_file_path = rel_path + 'triple_budget.pl'
 
