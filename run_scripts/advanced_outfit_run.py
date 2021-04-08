@@ -1,18 +1,11 @@
 import torch
-from torch import from_numpy
 import torchvision
-from torch.utils.data import Dataset
-import torchvision.transforms as transforms
 import torch.nn as nn
-import torch.optim as optim
-from torch.autograd import Variable
-from logger import Logger
 import numpy as np
 
 from problog.logic import Var
-from FashionMNIST.advanced_outfit.dpl_utils import neural_predicate
-from FashionMNIST.advanced_outfit.advanced_outfit_baseline.FashionDatasetClass import FashionTrainDataset,FashionTestDataset
-from train import train_model, train_model2
+from utils.df_dpl_utils import neural_predicate
+from train import train_model2
 from data_loader import load
 from model import Model
 from optimizer import Optimizer

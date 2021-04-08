@@ -1,16 +1,13 @@
 import torch
-from torch import from_numpy
 import torchvision
 from torch.utils.data import Dataset
 import torchvision.transforms as transforms
 import torch.nn as nn
 import torch.optim as optim
 from torch.autograd import Variable
-from logger import Logger
 import numpy as np
-from FashionMNIST.advanced_outfit.advanced_outfit_baseline.FashionDatasetClass import FashionTrainDataset,FashionTestDataset
+from utils.FashionDatasetClass import FashionTrainDataset,FashionTestDataset
 from metrics.metric_recording import save_data, clear_file, save_cm
-from torch.optim import lr_scheduler
 
 
 class Advanced_outfit(Dataset):

@@ -1,9 +1,8 @@
 from torch.autograd import Variable
 import torch
 from torchvision import transforms
-import torchvision
 import numpy as np
-from FashionMNIST.advanced_outfit.advanced_outfit_baseline.FashionDatasetClass import FashionTrainDataset,FashionTestDataset
+from utils.FashionDatasetClass import FashionTrainDataset,FashionTestDataset
 
 
 def test_Fashion_MNIST(model,max_digit=7,name='fashion_df_net'):
