@@ -2,7 +2,7 @@ import torch
 import problog
 from problog.extern import problog_export
 
-from logic import term2list2
+from DeepProbLog.logic import term2list2
 
 
 def count_backward(self, x, y):

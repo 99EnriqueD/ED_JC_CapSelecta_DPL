@@ -1,7 +1,7 @@
 from unittest import TestCase
-from model import Model
-from standard_networks import FC
-from network import Network
+from DeepProbLog.model import Model
+from DeepProbLog.standard_networks import FC
+from DeepProbLog.network import Network
 from problog.logic import Term, Constant, Var
 import torch
 from torch.autograd import Variable

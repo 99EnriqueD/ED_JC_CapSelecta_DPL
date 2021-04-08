@@ -5,7 +5,7 @@ import torchvision.transforms as transforms
 import torch.nn as nn
 import torch.optim as optim
 from torch.autograd import Variable
-from logger import Logger
+from DeepProbLog.logger import Logger
 import numpy as np
 from metrics.metric_recording import save_data, clear_file, save_cm
 

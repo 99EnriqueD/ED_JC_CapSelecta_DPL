@@ -1,5 +1,5 @@
 from problog.logic import Term
-from network import AD_Network, Fact_Network
+from DeepProbLog.network import AD_Network, Fact_Network
 
 
 class VectorShape(object):

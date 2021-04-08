@@ -1,9 +1,9 @@
-from train import train_model2, train_model
-from data_loader import load
-from model import Model
-from optimizer import Optimizer
-from network import Network
-from FashionMNIST.advanced_budget.advanced_budget_net import Advanced_budget_net,test_advanced_budget,neural_predicate 
+from DeepProbLog.train import train_model2
+from DeepProbLog.data_loader import load
+from DeepProbLog.model import Model
+from DeepProbLog.optimizer import Optimizer
+from DeepProbLog.network import Network
+from FashionMNIST.advanced_budget.advanced_budget_net import Advanced_budget_net, neural_predicate
 import torch
 from problog.logic import Var
 import numpy as np

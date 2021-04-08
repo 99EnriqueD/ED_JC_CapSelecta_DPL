@@ -1,7 +1,7 @@
 import unittest
 import problog
-from network import Network
-from standard_networks import FC
+from DeepProbLog.network import Network
+from DeepProbLog.standard_networks import FC
 
 parser = problog.parser.PrologParser(problog.program.ExtendedPrologFactory())
 

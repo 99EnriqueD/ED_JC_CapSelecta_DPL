@@ -1,8 +1,8 @@
-from train import train_model2
-from data_loader import load
-from model import Model
-from optimizer import Optimizer
-from network import Network
+from DeepProbLog.train import train_model2
+from DeepProbLog.data_loader import load
+from DeepProbLog.model import Model
+from DeepProbLog.optimizer import Optimizer
+from DeepProbLog.network import Network
 from neural_networks.defaultCNN import Fashion_MNIST_CNN, neural_predicate
 import torch
 from problog.logic import Var

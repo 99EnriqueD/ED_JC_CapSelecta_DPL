@@ -5,11 +5,11 @@ import numpy as np
 
 from problog.logic import Var
 from utils.df_dpl_utils import neural_predicate
-from train import train_model2
-from data_loader import load
-from model import Model
-from optimizer import Optimizer
-from network import Network
+from DeepProbLog.train import train_model2
+from DeepProbLog.data_loader import load
+from DeepProbLog.model import Model
+from DeepProbLog.optimizer import Optimizer
+from DeepProbLog.network import Network
 from metrics.metric_recording import save_data, clear_file, save_cm
 
 #### NET

@@ -1,9 +1,9 @@
 import torch
 import math
 import signal
-from logger import Logger
+from DeepProbLog.logger import Logger
 import time
-from logic import term2list2
+from DeepProbLog.logic import term2list2
 import random
 
 interrupt = False

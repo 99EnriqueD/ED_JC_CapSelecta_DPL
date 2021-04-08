@@ -2,12 +2,13 @@ import problog
 import os
 from problog.logic import *
 from problog.program import PrologString
-from logic import solve, extract_parameters
-from vector_shape import VectorShape
+from DeepProbLog.logic import solve, extract_parameters
+from DeepProbLog.vector_shape import VectorShape
 from problog.sdd_formula import SDD
 from zipfile import ZipFile
 import pickle
-from gradient_semiring import SemiringGradient
+
+
 # import numpy as np
 
 class Model(object):

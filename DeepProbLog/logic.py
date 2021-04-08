@@ -1,6 +1,6 @@
 import problog
 from problog.logic import *
-from gradient_semiring import SemiringGradient
+from DeepProbLog.gradient_semiring import SemiringGradient
 
 
 def extract_parameters(model):

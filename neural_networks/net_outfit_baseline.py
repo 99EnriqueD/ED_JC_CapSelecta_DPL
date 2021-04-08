@@ -1,12 +1,4 @@
-import torch
-import torchvision
-from torch.utils.data import Dataset
-import torchvision.transforms as transforms
 import torch.nn as nn
-import torch.optim as optim
-from torch.autograd import Variable
-from logger import Logger
-import numpy as np
 
 
 class Net(nn.Module):

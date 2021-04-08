@@ -1,15 +1,15 @@
-from train import train_model2
-from data_loader import load
-from model import Model
-from optimizer import Optimizer
-from network import Network
+from DeepProbLog.train import train_model2
+from DeepProbLog.data_loader import load
+from DeepProbLog.model import Model
+from DeepProbLog.optimizer import Optimizer
+from DeepProbLog.network import Network
 from problog.logic import Var
 from neural_networks.net_outfit import Fashion_MNIST_CNN, neural_predicate
 import torch
 from metrics.metric_recording import save_data, clear_file, save_cm
 import numpy as np
 
-rel_path = "FashionMNIST/outfit/"
+rel_path = "../FashionMNIST/outfit/"
 
 pl_file_path = rel_path + 'outfit.pl'
 
