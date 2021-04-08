@@ -225,7 +225,6 @@ DeepFashion/data
 DeepFashion/VGG16_Global_Cat_Atr.pth
 
 .idea/
-*.pdf
 *.pth
 *.bk
 
