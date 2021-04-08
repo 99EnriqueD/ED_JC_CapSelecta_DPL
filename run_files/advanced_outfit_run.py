@@ -116,7 +116,7 @@ def test(model,iteration):
 
 #### DPL
 
-rel_path = "FashionMNIST/advanced_outfit/"
+rel_path = "../FashionMNIST/advanced_outfit/"
 
 pl_file_path = rel_path + 'advanced_outfit.pl'
 

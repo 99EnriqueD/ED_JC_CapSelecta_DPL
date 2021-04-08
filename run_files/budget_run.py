@@ -10,7 +10,7 @@ import numpy as np
 from graphs.graphs import save_data, clear_file, save_cm
 
 
-rel_path = 'FashionMNIST/budget/'
+rel_path = '../FashionMNIST/budget/'
 
 pl_file_path = rel_path + 'budget.pl'
 
