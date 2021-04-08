@@ -1,4 +1,3 @@
-import matplotlib.pyplot as plt
 import torch
 import torchvision
 from torch.utils.data import Dataset
@@ -11,7 +10,7 @@ import numpy as np
 from metrics.metric_recording import save_data, clear_file, save_cm
 
 
-from FashionMNIST.triple_budget.triple_budget_base.net import TB_Net
+from neural_networks.net_triple_budget_baseline import TB_Net
 
 class F_budget(Dataset):
         def __init__(self, dataset, examples):

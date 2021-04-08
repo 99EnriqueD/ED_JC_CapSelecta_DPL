@@ -1,10 +1,10 @@
-from train import train_model,train_model2
+from train import train_model2
 from data_loader import load
 from model import Model
 from optimizer import Optimizer
 from network import Network
 from problog.logic import Var
-from FashionMNIST.outfit.net import Fashion_MNIST_CNN, neural_predicate, test_Fashion_MNIST
+from neural_networks.net_outfit import Fashion_MNIST_CNN, neural_predicate
 import torch
 from metrics.metric_recording import save_data, clear_file, save_cm
 import numpy as np
