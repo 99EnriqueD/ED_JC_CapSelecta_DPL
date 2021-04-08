@@ -9,9 +9,8 @@ import torch
 from metrics.metric_recording import save_data, clear_file, save_cm
 import numpy as np
 
-rel_path = "../FashionMNIST/outfit/"
 
-pl_file_path = rel_path + 'outfit.pl'
+pl_file_path = 'pl_files/outfit.pl'
 
 clear_file("outfit_acc.txt")
 clear_file("outfit_F1.txt")
@@ -75,8 +74,8 @@ def test(model,iteration):
     save_data(iteration,F1,"outfit_F1.txt")
     return 
 
-train_queries = load(rel_path + 'train_outfit_data.txt')
-test_queries = load(rel_path + 'test_outfit_data.txt')
+train_queries = load('data/generated_data/train_outfit_data.txt')
+test_queries = load('data/generated_data/test_outfit_data.txt')
 
 with open(pl_file_path) as f:
     problog_string = f.read()

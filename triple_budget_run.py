@@ -10,9 +10,7 @@ import numpy as np
 from metrics.metric_recording import save_data, clear_file, save_cm
 
 
-rel_path = 'FashionMNIST/triple_budget/'
-
-pl_file_path = rel_path + 'triple_budget.pl'
+pl_file_path = 'pl_files/triple_budget.pl'
 
 clear_file("triple_budget_acc.txt")
 clear_file("triple_budget_F1.txt")
@@ -63,8 +61,8 @@ def test(model,iteration):
     save_data(iteration,F1,"triple_budget_F1.txt")
     return 
 
-train_queries = load(rel_path + 'train_triple_budget_data.txt')
-test_queries = load(rel_path + 'test_triple_budget_data.txt')
+train_queries = load('data/generated_data/train_triple_budget_data.txt')
+test_queries = load('data/generated_data/test_triple_budget_data.txt')
 
 with open(pl_file_path) as f:
     problog_string = f.read()

@@ -10,9 +10,7 @@ import numpy as np
 from metrics.metric_recording import save_data, clear_file, save_cm
 
 
-rel_path = 'FashionMNIST/budget/'
-
-pl_file_path = rel_path + 'budget.pl'
+pl_file_path = 'pl_files/budget.pl'
 
 clear_file("budget_acc.txt")
 clear_file("budget_F1.txt")
@@ -63,8 +61,8 @@ def test(model,iteration):
     save_data(iteration,F1,"budget_F1.txt")
     return 
 
-train_queries = load(rel_path + 'train_budget_data.txt')
-test_queries = load(rel_path + 'test_budget_data.txt')
+train_queries = load('data/generated_data/train_budget_data.txt')
+test_queries = load('data/generated_data/test_budget_data.txt')
 
 with open(pl_file_path) as f:
     problog_string = f.read()
@@ -77,8 +75,5 @@ net = Network(network,'fashion_mnist_net', neural_predicate)
 net.optimizer = torch.optim.Adam(network.parameters(), lr=0.001)
 model = Model(problog_string,[net],caching=False)
 optimizer = Optimizer(model,2)
-
-# logger = train_model(model,train_queries,1,optimizer, test_iter=1000,test=lambda x: x.accuracy(test_queries, test=True), snapshot_iter=10000)
-# logger.write_to_file('metrics/budget')
 
 train_model2(model,train_queries,3,optimizer,test_iter=1000,test=test,snapshot_iter=10000)

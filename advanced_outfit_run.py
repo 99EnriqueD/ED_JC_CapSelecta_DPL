@@ -109,22 +109,19 @@ def test(model,iteration):
 
 #### DPL
 
-rel_path = "FashionMNIST/advanced_outfit/"
+pl_file_path = 'pl_files/advanced_outfit.pl'
 
-pl_file_path = rel_path + 'advanced_outfit.pl'
-
-train_queries = load(rel_path + 'train_advanced_outfit_data.txt')
-test_queries = load(rel_path + 'test_advanced_outfit_data.txt')
+train_queries = load('data/generated_data/train_advanced_outfit_data.txt')
+test_queries = load('data/generated_data/test_advanced_outfit_data.txt')
 
 with open(pl_file_path) as f:
     problog_string = f.read()
 
 net.optimizer = torch.optim.Adam(net.fc.parameters(), lr=0.001)   
-# Might need to make multiple nets and add them all to model
+
 netwrk = Network(net,'fashion_df_net', neural_predicate)
 
 model = Model(problog_string,[netwrk],caching=False)
 optimizer = Optimizer(model,2)
 
-# train_model(model,train_queries,1,optimizer, test_iter=1000,test=lambda x: x.accuracy(test_queries, test=True), snapshot_iter=10000)
 train_model2(model,train_queries,3,optimizer,test_iter=5000,test=test,snapshot_iter=10000)

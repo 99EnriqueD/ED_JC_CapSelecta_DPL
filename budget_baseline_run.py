@@ -90,10 +90,10 @@ if __name__ == '__main__':
 
     train_dataset = F_budget(
         torchvision.datasets.FashionMNIST(root='data', train=True, download=True, transform=transform),
-        'FashionMNIST/budget/budget_baseline/train_budget_base_data.txt')
+        'data/generated_data/train_budget_base_data.txt')
     test_dataset = F_budget(
         torchvision.datasets.FashionMNIST(root='data', train=False, download=True, transform=transform),
-        'FashionMNIST/budget/budget_baseline/test_budget_base_data.txt')
+        'data/generated_data/test_budget_base_data.txt')
     trainloader = torch.utils.data.DataLoader(train_dataset, batch_size=2, shuffle=True, num_workers=1)
 
     i = 1
@@ -127,4 +127,4 @@ if __name__ == '__main__':
                 net.train()
             i += 1
 
-    log.write_to_file('metrics/budget_baseline')
+    # log.write_to_file('metrics/budget_baseline')

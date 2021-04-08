@@ -94,10 +94,10 @@ if __name__ == '__main__':
 
     train_dataset = F_budget(
         torchvision.datasets.FashionMNIST(root='data', train=True, download=True, transform=transform),
-        'FashionMNIST/triple_budget/triple_budget_base/train_triple_budget_base_data.txt')
+        'data/generated_data/train_triple_budget_base_data.txt')
     test_dataset = F_budget(
         torchvision.datasets.FashionMNIST(root='data', train=False, download=True, transform=transform),
-        'FashionMNIST/triple_budget/triple_budget_base/test_triple_budget_base_data.txt')
+        'data/generated_data/test_triple_budget_base_data.txt')
     trainloader = torch.utils.data.DataLoader(train_dataset, batch_size=2, shuffle=True, num_workers=1)
 
 
@@ -112,11 +112,6 @@ if __name__ == '__main__':
     for epoch in range(3):
 
         for data in trainloader:
-        #     if b:
-        #         a = np.squeeze(data[0][0].permute(1, 2, 0))
-        #         plt.imshow(a, cmap='gray')
-        #         plt.show()
-        #         b = False
             inputs, labels = data
             inputs,labels = inputs.to(device),labels.to(device)
             inputs, labels = Variable(inputs), Variable(labels)     

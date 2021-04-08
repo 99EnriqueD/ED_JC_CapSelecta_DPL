@@ -24,15 +24,6 @@ class Advanced_outfit(Dataset):
 
         def __getitem__(self, index):
             i1, i2, l = self.data[index]
-            # return self.dataset[i1],
-            # print("IN GET ITEM")
-            # print("SHAPE 1 : ", len(self.dataset[i1]))
-            # print("SHAPE 1[0]", self.dataset[i1][0].size(), " -- ", self.dataset[i1][0])
-            # print("SHAPE 1[1]", self.dataset[i1][1])
-            # print("SHAPE 2 : ", len(self.dataset[i2]))
-            # print("SHAPE 2[0]", self.dataset[i2][0].size(), " -- ", self.dataset[i2][0])
-            # print("SHAPE 2[1]", self.dataset[i2][1])
-            # print("LABEL : ", l)
 
             return torch.cat((self.dataset[i1][0],self.dataset[i2][0]), 1), l
 
@@ -67,16 +58,6 @@ if __name__ == '__main__':
     # Parameters of newly constructed modules have requires_grad=True by default
     num_ftrs_resnet = net.fc.in_features
     net.fc = nn.Linear(num_ftrs_resnet, num_ftrs_wardrobe)
-    
-    # net = Fashion_DF_CNN()
-    # net.fc = nn.Sequential(
-    #         nn.Linear(num_ftrs_resnet, 120),
-    #         nn.ReLU(),
-    #         nn.Linear(120, 84),
-    #         nn.ReLU(),
-    #         nn.Linear(84, num_ftrs_wardrobe),
-    #         # nn.Softmax(1)
-    #         )
     
 
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -140,8 +121,6 @@ if __name__ == '__main__':
     running_loss = 0.0
     # log = Logger()
     optimizer = optim.Adam(net.fc.parameters(), lr=0.001)
-    # optimizer = optim.SGD(net.parameters(), lr=0.1, momentum=0.9)
-    # exp_lr_scheduler = lr_scheduler.StepLR(optimizer, step_size=1, gamma=0.1)
     criterion = nn.CrossEntropyLoss()
     
     for epoch in range(3):
@@ -161,12 +140,7 @@ if __name__ == '__main__':
             running_loss += loss.data
             if i % log_period == 0:
                 print('Iteration: ', i * 2, '\tAverage Loss: ', running_loss / log_period)
-                # log.log('loss', i * 2, running_loss / log_period)
                 running_loss = 0
             if i % test_period == 0:
-                # log.log('F1', i * 2, test_DF(i*2))
-                # net.eval()
                 test_DF(i*2)
-                # net.train()
-                # exp_lr_scheduler.step()
             i += 1
