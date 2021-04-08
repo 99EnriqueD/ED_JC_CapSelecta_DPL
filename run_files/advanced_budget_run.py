@@ -7,7 +7,7 @@ from FashionMNIST.advanced_budget.advanced_budget_net import Advanced_budget_net
 import torch
 from problog.logic import Var
 import numpy as np
-from graphs.graphs import save_data, clear_file, save_cm
+from metrics.metric_recording import save_data, clear_file, save_cm
 
 
 rel_path = 'FashionMNIST/advanced_budget/'
@@ -77,6 +77,6 @@ model = Model(problog_string,[net],caching=False)
 optimizer = Optimizer(model,2)
 
 # logger = train_model(model,train_queries,1,optimizer, test_iter=1000,test=lambda x: x.accuracy(test_queries, test=True), snapshot_iter=10000)
-# logger.write_to_file('graphs/budget')
+# logger.write_to_file('metrics/budget')
 
 train_model2(model,train_queries,1,optimizer,test_iter=1000,test=test,snapshot_iter=10000)

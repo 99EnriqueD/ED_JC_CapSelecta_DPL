@@ -7,7 +7,7 @@ import torch.optim as optim
 from torch.autograd import Variable
 from logger import Logger
 import numpy as np
-from graphs.graphs import save_data, clear_file, save_cm
+from metrics.metric_recording import save_data, clear_file, save_cm
 
 from FashionMNIST.budget.budget_baseline.net import Net
 
@@ -127,4 +127,4 @@ if __name__ == '__main__':
                 net.train()
             i += 1
 
-    log.write_to_file('graphs/budget_baseline')
+    log.write_to_file('metrics/budget_baseline')

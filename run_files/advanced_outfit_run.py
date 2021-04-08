@@ -17,7 +17,7 @@ from data_loader import load
 from model import Model
 from optimizer import Optimizer
 from network import Network
-from graphs.graphs import save_data, clear_file, save_cm
+from metrics.metric_recording import save_data, clear_file, save_cm
 
 #### NET
 

@@ -6,7 +6,7 @@ from network import Network
 from problog.logic import Var
 from FashionMNIST.outfit.net import Fashion_MNIST_CNN, neural_predicate, test_Fashion_MNIST
 import torch
-from graphs.graphs import save_data, clear_file, save_cm
+from metrics.metric_recording import save_data, clear_file, save_cm
 import numpy as np
 
 rel_path = "FashionMNIST/outfit/"
