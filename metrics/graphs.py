@@ -1,3 +1,8 @@
+import matplotlib.pyplot as plt
+import numpy as np
+
+rel_path = "metrics/"
+
 def make_plot(dpl_data_file, baseline_data_file, label_base, label_dpl, x_axis_name, y_axis_name, output_file):
     baseline_data_file = rel_path + baseline_data_file
     dpl_data_file = rel_path + dpl_data_file
